@@ -39,10 +39,17 @@ dependencies:
   get: ^4.6.5
   google_fonts: ^3.0.1
   focused_menu: ^1.0.5
-  font_awesome_flutter: ^10.3.0
+  # font_awesome_flutter: ^10.3.0
   lottie: ^2.0.0
   delayed_display: ^2.0.0
   flutter_staggered_animations: ^1.1.1
+  loading_animation_widget: ^1.2.0+4
+  flutter_signin_button: ^2.0.0
+  firebase_auth: ^4.2.9
+  firebase_core: ^2.7.0
+  firebase_storage: ^11.0.14
+  google_sign_in: ^6.0.2
+  shared_preferences: ^2.0.18
 
 
 dev_dependencies:

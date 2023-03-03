@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "652779384758",
+    "project_id": "hr-management-system-10407",
+    "storage_bucket": "hr-management-system-10407.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:652779384758:android:ca7dd70631296fc05e5b17",
+        "android_client_info": {
+          "package_name": "com.example.hr_management_system"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "652779384758-kf12onga4gb0gmamdfereg0b951ilr6l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hr_management_system",
+            "certificate_hash": "bb6a46e9f209b5cad60dddd31a2d049aa8fe0db7"
+          }
+        },
+        {
+          "client_id": "652779384758-pa5iblnn06592vt92pm7rstivgqel6h6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4v5Xqmgvw3SGupemxk0JgqBQH_V9zrK0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "652779384758-pa5iblnn06592vt92pm7rstivgqel6h6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

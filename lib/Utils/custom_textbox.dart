@@ -13,21 +13,22 @@ class CustomTextbox extends StatefulWidget {
   final prefixIcon;
   final int maxLine;
   final TextInputType inputType;
+  final bool isReadOnly;
 
   TextEditingController? controller;
-  CustomTextbox({Key? key,
-    this.width= 342,
+  CustomTextbox({
+    Key? key,
+    this.width = 342,
     this.textEditingController,
     this.isPassword = false,
     this.isNumber = false,
     this.prefixIcon,
-    this.text= "example@gmail.com",
-    this.textSize= 14,
-    this.height= 50,
+    this.text = "example@gmail.com",
+    this.textSize = 14,
+    this.height = 50,
     this.maxLine = 1,
     this.inputType = TextInputType.text,
-
-
+    this.isReadOnly = false,
   }) : super(key: key);
 
   @override
@@ -35,7 +36,7 @@ class CustomTextbox extends StatefulWidget {
 }
 
 class _CustomTextboxState extends State<CustomTextbox> {
-  bool isObscure= false;
+  bool isObscure = false;
   @override
   void initState() {
     super.initState();
@@ -44,6 +45,7 @@ class _CustomTextboxState extends State<CustomTextbox> {
       isObscure = widget.isPassword == true;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -51,60 +53,50 @@ class _CustomTextboxState extends State<CustomTextbox> {
       width: widget.width,
       height: widget.height,
       decoration: BoxDecoration(
-        color: AppColors.textbox,
-          borderRadius: BorderRadius.circular(15),
-          boxShadow: [
-            BoxShadow(
-                color: AppColors.textbox,
-                blurRadius: 5.0,
-                offset: Offset(0, 2)
-            )
-          ]
-      ),
-
+          color: AppColors.textbox,
+          borderRadius: BorderRadius.circular(6),
+          boxShadow: const [
+            // BoxShadow(
+            //     color: AppColors.textbox, blurRadius: 5.0, offset: Offset(0, 2))
+          ]),
       child: Center(
         child: TextFormField(
           maxLines: widget.maxLine,
+          textAlignVertical: TextAlignVertical.center,
           controller: widget.textEditingController,
+          readOnly: widget.isReadOnly,
           obscureText: isObscure,
           cursorColor: AppColors.textboxtext,
           style: TextStyle(
             color: AppColors.textboxwritten,
             fontWeight: FontWeight.w400,
             fontSize: widget.textSize,
-
-
           ),
           keyboardType: widget.inputType,
-          // keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
             border: InputBorder.none,
             prefixIcon: widget.prefixIcon,
             disabledBorder: InputBorder.none,
             suffixIcon: widget.isPassword
                 ? GestureDetector(
-                onTap: () {
-                  setState(() {
-                    isObscure = !isObscure;
-                  });
-                },
-                child: Icon(
-                  isObscure? Icons.visibility : Icons.visibility_off,
-                  color: AppColors.textboxicon,
-                  size: 20,
-                )
-            ): SizedBox(),
-
+                    onTap: () {
+                      setState(() {
+                        isObscure = !isObscure;
+                      });
+                    },
+                    child: Icon(
+                      isObscure ? Icons.visibility : Icons.visibility_off,
+                      color: AppColors.textboxicon,
+                      size: 20,
+                    ))
+                : SizedBox(),
             hintText: widget.text,
-
-            hintStyle:TextStyle(
+            hintStyle: TextStyle(
 
                 // color: Color(0xffFFFFFF)
-              color: AppColors.textboxtext
-                ,fontSize: widget.textSize,
-                fontWeight: FontWeight.w400
-            ),
-
+                color: AppColors.textboxtext,
+                fontSize: widget.textSize,
+                fontWeight: FontWeight.w400),
           ),
         ),
       ),
