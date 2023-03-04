@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:hr_management_system/Home%20Module/View/home_screen.dart';
 import 'package:hr_management_system/Splash%20Module/View/splash_screen.dart';
 import 'package:hr_management_system/Utils/size_config.dart';
 
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
             return GetMaterialApp(
               theme: ThemeData(fontFamily: 'Rubik'),
               debugShowCheckedModeBanner: false,
-              home: SplashScreen(),
+              home: HomeScreen(),
             );
           },
         );

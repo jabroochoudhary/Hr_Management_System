@@ -12,6 +12,7 @@ class TextFieldWithLabel {
     bool isPassword = false,
     bool isNumber = false,
     bool isReadOnly = false,
+    int maxLines = 1,
   }) {
     return Column(
       children: [
@@ -29,11 +30,12 @@ class TextFieldWithLabel {
           height: SizeConfig.heightMultiplier * 1,
         ),
         CustomTextbox(
-          text: label,
+          text: hint,
           textEditingController: textEditingController,
           isPassword: isPassword,
           isNumber: isNumber,
           isReadOnly: isReadOnly,
+          maxLine: maxLines,
           inputType: isNumber ? TextInputType.number : TextInputType.text,
         ),
         SizedBox(

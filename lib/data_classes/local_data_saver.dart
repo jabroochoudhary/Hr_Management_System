@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AppLocalDataSaver {
   static String userId = "CURRUNTUSERIDKEY";
   static String userName = "USERNAMEKEY";
-  static String userEmail = "USEREMAIL";
+  static String userEmail = "USEREMAILKEY";
 
   static Future<void> setString(String value, String key) async {
     final prefs = await SharedPreferences.getInstance();

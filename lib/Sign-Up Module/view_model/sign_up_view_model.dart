@@ -61,9 +61,16 @@ class SignUpViewModel extends GetxController {
         useremailController.value.text = user.email.toString();
         userId.value = user.uid.toString();
         userContactNoController.value.text = user.phoneNumber.toString();
+
+        if (await isUserProfileComplete(userId.value)) {
+          Get.back();
+          PopUpNotification()
+              .show("Your profile is completed. Log in to continue", "Info");
+        }
         isSignUpGoogleDone.value = true;
         isLoading.value = false;
       }
+
       // print(userId.toString());
     } on FirebaseException catch (e) {
       print("Error ================" + e.toString());
@@ -129,7 +136,7 @@ class SignUpViewModel extends GetxController {
               useremailController.value.text.toString(),
               AppLocalDataSaver.userEmail);
           await AppLocalDataSaver.setString(
-              userId.toString(), AppLocalDataSaver.userId);
+              userId.value.toString(), AppLocalDataSaver.userId);
         }
         isLoading.value = false;
         PopUpNotification().show("Profile completed sucess", "Profile");
@@ -140,5 +147,28 @@ class SignUpViewModel extends GetxController {
       }
     }
     return done;
+  }
+
+  Future<bool> isUserProfileComplete(String uid) async {
+    SignUpModel userData = SignUpModel();
+    await FirebaseFirestore.instance
+        .collection(AppConstants.hrCollectionName)
+        .doc(uid)
+        .get()
+        .then((value) {
+      userData = SignUpModel.fromJson(value.data() as Map<String, dynamic>);
+    });
+    if (userData.email!.isNotEmpty) {
+      await AppLocalDataSaver.setString(
+          userData.email.toString(), AppLocalDataSaver.userEmail);
+      await AppLocalDataSaver.setString(
+          uid.toString(), AppLocalDataSaver.userId);
+      await AppLocalDataSaver.setString(
+          userData.userFullName.toString(), AppLocalDataSaver.userName);
+
+      return true;
+    } else {
+      return false;
+    }
   }
 }

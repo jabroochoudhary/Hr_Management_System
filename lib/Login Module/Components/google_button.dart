@@ -26,12 +26,13 @@ class _GoogleButtonState extends State<GoogleButton> {
   Widget build(BuildContext context) {
     return SignInButton(
       Buttons.Google,
+
       // text: widget.title,
-      shape: Border.all(
-        color: AppColors.primarycolor,
-        width: 0.5,
-        style: BorderStyle.solid,
-      ),
+      // shape: Border.all(
+      //   // color: AppColors.primarycolor,
+      //   width: 0.5,
+      //   style: BorderStyle.solid,
+      // ),
       // text: "Sign up with Google",
       onPressed: widget.callback,
     );

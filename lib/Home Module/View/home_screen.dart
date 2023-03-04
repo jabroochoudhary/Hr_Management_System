@@ -6,9 +6,8 @@ import 'package:hr_management_system/Leave%20Record%20Module/View/leave_record.d
 import 'package:hr_management_system/Loan%20Module/View/loan_screen.dart';
 import 'package:hr_management_system/Login%20Module/View/login_screen.dart';
 import 'package:hr_management_system/Report%20Module/View/report_screen.dart';
-import 'package:hr_management_system/Sign-Up%20Module/View/add_employee.dart';
+import 'package:hr_management_system/add_empoyee/view/add_employee.dart';
 import 'package:hr_management_system/Utils/colors.dart';
-import 'package:get/get.dart';
 import 'package:hr_management_system/Utils/custom_appbar.dart';
 import 'package:hr_management_system/Utils/size_config.dart';
 import 'package:lottie/lottie.dart';
@@ -40,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
     "assets/report.json",
     "assets/logout.json",
   ];
-  List <dynamic>pages =[
+  List<dynamic> pages = [
     AttendencePage(),
     LeaveRecord(),
     LoanScreen(),
@@ -59,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
         leading: IconButton(
           onPressed: () {
             _scaffoldkey.currentState!.openDrawer();
-            },
+          },
           icon: Icon(Icons.menu),
         ),
         actions: [
@@ -130,13 +129,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                      SizedBox(
-                        child: Lottie.asset(logo[index]),
-                      height: SizeConfig.heightMultiplier*17,
-                      ),
-                      Text(caption[index],style: TextStyle(
-                        color: Colors.white,fontSize: 18
-                      ),),
+                          SizedBox(
+                            child: Lottie.asset(logo[index]),
+                            height: SizeConfig.heightMultiplier * 17,
+                          ),
+                          Text(
+                            caption[index],
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
                         ],
                       ),
                     ),
@@ -155,42 +155,41 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Container(
             height: 65,
             width: 65,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Color(0xffB2C6FE)
-              // gradient: LinearGradient(
-              //   colors: [
-              //     Color.fromRGBO(143, 148, 251, 1),
-              //     Color.fromRGBO(143, 148, 251, .6),
-              //   ],
-              // ),
-            ),
-            child: Lottie.asset("assets/action.json",fit: BoxFit.fitWidth)
-        ),
+            decoration:
+                BoxDecoration(shape: BoxShape.circle, color: Color(0xffB2C6FE)
+                    // gradient: LinearGradient(
+                    //   colors: [
+                    //     Color.fromRGBO(143, 148, 251, 1),
+                    //     Color.fromRGBO(143, 148, 251, .6),
+                    //   ],
+                    // ),
+                    ),
+            child: Lottie.asset("assets/action.json", fit: BoxFit.fitWidth)),
       ),
     );
   }
 }
+
 class CustomTransition extends PageRouteBuilder {
   final Widget page;
 
   CustomTransition(this.page)
       : super(
-    pageBuilder: (
-        BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
-        ) =>
-    page,
-    transitionsBuilder: (
-        BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
-        Widget child,
-        ) =>
-        FadeTransition(
-          opacity: animation,
-          child: page,
-        ),
-  );
+          pageBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+          ) =>
+              page,
+          transitionsBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+            Widget child,
+          ) =>
+              FadeTransition(
+            opacity: animation,
+            child: page,
+          ),
+        );
 }
