@@ -49,6 +49,7 @@ dependencies:
   firebase_core: ^2.7.0
   firebase_storage: ^11.0.14
   google_sign_in: ^6.0.2
+  cloud_firestore: ^4.4.3
   shared_preferences: ^2.0.18
 
 

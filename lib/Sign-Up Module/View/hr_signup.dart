@@ -99,7 +99,6 @@ class _HrSignupState extends State<HrSignup> {
                         hint: "Enter personal contact no.",
                         textEditingController:
                             _controllerSignUp.userContactNoController.value,
-                        isReadOnly: true,
                       ),
                       TextFieldWithLabel().textFieldLabel(
                         label: "Personal Email",
@@ -120,11 +119,20 @@ class _HrSignupState extends State<HrSignup> {
                       ),
                       Container(
                         padding: EdgeInsets.only(left: 13, right: 13),
-                        child: CustomButton(
-                          callback: () {},
-                          title: "Sign Up",
-                          width: SizeConfig.widthMultiplier * 100,
-                        ),
+                        child: _controllerSignUp.isLoading.value
+                            ? LoadingIndicator().loading()
+                            : CustomButton(
+                                callback: () async {
+                                  if (await _controllerSignUp
+                                      .saveSignUpUserData()) {
+                                    Get.back();
+                                  } else {
+                                    print("Some network Issue");
+                                  }
+                                },
+                                title: "Sign Up",
+                                width: SizeConfig.widthMultiplier * 100,
+                              ),
                       ),
                       SizedBox(
                         height: SizeConfig.heightMultiplier * 2,

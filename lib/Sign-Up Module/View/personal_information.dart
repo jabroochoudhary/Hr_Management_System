@@ -36,7 +36,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          height: SizeConfig.heightMultiplier*87,
+          height: SizeConfig.heightMultiplier * 87,
           // margin: EdgeInsets.only(top: SizeConfig.heightMultiplier*10),
           padding: EdgeInsets.only(left: 15, right: 15, top: 10),
           child: Column(
@@ -44,102 +44,95 @@ class _PersonalInformationState extends State<PersonalInformation> {
             children: [
               Column(
                 children: [
-                Text("Personal Information",
-                    style: TextStyle(
-                        color: AppColors.coloredtext,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18),
-                    textAlign: TextAlign.start),
-                SizedBox(
-                  height: SizeConfig.heightMultiplier * 2,
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: SizeConfig.widthMultiplier * 4,
-                    ),
-                    Text("Childrens",
-                        style:
-                        TextStyle(color: AppColors.textlight, fontSize: 16),
-                        textAlign: TextAlign.start),
-                  ],
-                ),
-                SizedBox(
-                  height: SizeConfig.heightMultiplier * 1,
-                ),
-                CustomTextbox(
-                  text: "No of Children",
-                  inputType: TextInputType.number,
-                ),
-                SizedBox(
-                  height: SizeConfig.heightMultiplier * 2,
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: SizeConfig.widthMultiplier * 4,
-                    ),
-                    Text("Spouse",
-                        style:
-                        TextStyle(color: AppColors.textlight, fontSize: 16),
-                        textAlign: TextAlign.start),
-                  ],
-                ),
-                SizedBox(
-                  height: SizeConfig.heightMultiplier * 1,
-                ),
-                CustomTextbox(
-                  text: "Spouse",
-                ),
-                SizedBox(
-                  height: SizeConfig.heightMultiplier * 2,
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: SizeConfig.widthMultiplier * 4,
-                    ),
-                    Text("Address",
-                        style:
-                        TextStyle(color: AppColors.textlight, fontSize: 16),
-                        textAlign: TextAlign.start),
-                  ],
-                ),
-                SizedBox(
-                  height: SizeConfig.heightMultiplier * 1,
-                ),
-                CustomTextbox(
-                  text: "Address here",
-                  maxLine: 3,
-                  height: SizeConfig.heightMultiplier*13,
-                ),
-                SizedBox(
-                  height: SizeConfig.heightMultiplier * 4,
-                ),
-              ],),
+                  Text("Personal Information",
+                      style: TextStyle(
+                          color: AppColors.coloredtext,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18),
+                      textAlign: TextAlign.start),
+                  SizedBox(
+                    height: SizeConfig.heightMultiplier * 2,
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: SizeConfig.widthMultiplier * 4,
+                      ),
+                      Text("Childrens",
+                          style: TextStyle(
+                              color: AppColors.textlight, fontSize: 16),
+                          textAlign: TextAlign.start),
+                    ],
+                  ),
+                  SizedBox(
+                    height: SizeConfig.heightMultiplier * 1,
+                  ),
+                  CustomTextbox(
+                    text: "No of Children",
+                    inputType: TextInputType.number,
+                  ),
+                  SizedBox(
+                    height: SizeConfig.heightMultiplier * 2,
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: SizeConfig.widthMultiplier * 4,
+                      ),
+                      Text("Spouse",
+                          style: TextStyle(
+                              color: AppColors.textlight, fontSize: 16),
+                          textAlign: TextAlign.start),
+                    ],
+                  ),
+                  SizedBox(
+                    height: SizeConfig.heightMultiplier * 1,
+                  ),
+                  CustomTextbox(
+                    text: "Spouse",
+                  ),
+                  SizedBox(
+                    height: SizeConfig.heightMultiplier * 2,
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: SizeConfig.widthMultiplier * 4,
+                      ),
+                      Text("Address",
+                          style: TextStyle(
+                              color: AppColors.textlight, fontSize: 16),
+                          textAlign: TextAlign.start),
+                    ],
+                  ),
+                  SizedBox(
+                    height: SizeConfig.heightMultiplier * 1,
+                  ),
+                  CustomTextbox(
+                    text: "Address here",
+                    maxLine: 3,
+                    height: SizeConfig.heightMultiplier * 13,
+                  ),
+                  SizedBox(
+                    height: SizeConfig.heightMultiplier * 4,
+                  ),
+                ],
+              ),
               Column(
                 children: [
-                Container(
-                  padding: EdgeInsets.only(left: 13, right: 13),
-                  child: CustomButton(
-
-                    callback: () {
-                      Get.snackbar("Error", "Please fill all Fields",
-                          backgroundColor: Colors.black38,
-                          colorText: Colors.white,
-                          snackPosition: SnackPosition.TOP);
-
-                    },
-                    title: "Create Account",
-                    width: SizeConfig.widthMultiplier * 50,
+                  Container(
+                    padding: EdgeInsets.only(left: 13, right: 13),
+                    child: CustomButton(
+                      callback: () {},
+                      title: "Create Account",
+                      width: SizeConfig.widthMultiplier * 50,
+                    ),
                   ),
-                ),
-
-                SizedBox(
-                  height: SizeConfig.heightMultiplier * 2,
-                ),
-              ],),
-
+                  SizedBox(
+                    height: SizeConfig.heightMultiplier * 2,
+                  ),
+                ],
+              ),
             ],
           ),
         ),
