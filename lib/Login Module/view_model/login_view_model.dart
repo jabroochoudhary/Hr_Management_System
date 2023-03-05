@@ -98,6 +98,7 @@ class LogInViewModel extends GetxController {
           if (await isUserProfileComplete(userId.value)) {
             Get.off(() => HomeScreen());
           } else {
+            isLoading.value = false;
             PopUpNotification()
                 .show("Complete your profile to continue.", "Info");
           }
@@ -123,25 +124,28 @@ class LogInViewModel extends GetxController {
 //////////////////////////////////////
   Future<bool> isUserProfileComplete(String uid) async {
     SignUpModel userData = SignUpModel();
-    await FirebaseFirestore.instance
-        .collection(AppConstants.hrCollectionName)
-        .doc(uid)
-        .get()
-        .then((value) {
-      userData = SignUpModel.fromJson(value.data() as Map<String, dynamic>);
-    });
-    if (userData.email!.isNotEmpty) {
-      await AppLocalDataSaver.setString(
-          userData.email.toString(), AppLocalDataSaver.userEmail);
-      await AppLocalDataSaver.setString(
-          uid.toString(), AppLocalDataSaver.userId);
-      await AppLocalDataSaver.setString(
-          userData.userFullName.toString(), AppLocalDataSaver.userName);
+    try {
+      await FirebaseFirestore.instance
+          .collection(AppConstants.hrCollectionName)
+          .doc(uid)
+          .get()
+          .then((value) {
+        userData = SignUpModel.fromJson(value.data() as Map<String, dynamic>);
+      }).timeout(Duration(seconds: 10));
+      if (userData.email!.isNotEmpty) {
+        await AppLocalDataSaver.setString(
+            userData.email.toString(), AppLocalDataSaver.userEmail);
+        await AppLocalDataSaver.setString(
+            uid.toString(), AppLocalDataSaver.userId);
+        await AppLocalDataSaver.setString(
+            userData.userFullName.toString(), AppLocalDataSaver.userName);
 
-      return true;
-    } else {
-      return false;
-    }
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {}
+    return false;
   }
 
 //////////////////////////////////////////////////

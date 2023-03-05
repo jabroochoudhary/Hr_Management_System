@@ -63,12 +63,14 @@ class SignUpViewModel extends GetxController {
         userContactNoController.value.text = user.phoneNumber.toString();
 
         if (await isUserProfileComplete(userId.value)) {
+          isLoading.value = false;
           Get.back();
           PopUpNotification()
               .show("Your profile is completed. Log in to continue", "Info");
+        } else {
+          isSignUpGoogleDone.value = true;
+          isLoading.value = false;
         }
-        isSignUpGoogleDone.value = true;
-        isLoading.value = false;
       }
 
       // print(userId.toString());
@@ -80,6 +82,8 @@ class SignUpViewModel extends GetxController {
       print("Error ================" + e.toString());
       PopUpNotification().show(e.toString(), "Error");
       Get.back();
+    } catch (e) {
+      PopUpNotification().show(e.toString(), "Error");
     }
   }
 
@@ -150,25 +154,35 @@ class SignUpViewModel extends GetxController {
   }
 
   Future<bool> isUserProfileComplete(String uid) async {
+    bool isDone = false;
     SignUpModel userData = SignUpModel();
-    await FirebaseFirestore.instance
-        .collection(AppConstants.hrCollectionName)
-        .doc(uid)
-        .get()
-        .then((value) {
-      userData = SignUpModel.fromJson(value.data() as Map<String, dynamic>);
-    });
-    if (userData.email!.isNotEmpty) {
-      await AppLocalDataSaver.setString(
-          userData.email.toString(), AppLocalDataSaver.userEmail);
-      await AppLocalDataSaver.setString(
-          uid.toString(), AppLocalDataSaver.userId);
-      await AppLocalDataSaver.setString(
-          userData.userFullName.toString(), AppLocalDataSaver.userName);
+    try {
+      await FirebaseFirestore.instance
+          .collection(AppConstants.hrCollectionName)
+          .doc(uid)
+          .get()
+          .then((value) {
+        userData = SignUpModel.fromJson(value.data() as Map<String, dynamic>);
+        isDone = true;
+      }).timeout(
+        Duration(seconds: 5),
+        onTimeout: () {
+          isDone = false;
+        },
+      );
+      if (userData.email!.isNotEmpty) {
+        await AppLocalDataSaver.setString(
+            userData.email.toString(), AppLocalDataSaver.userEmail);
+        await AppLocalDataSaver.setString(
+            uid.toString(), AppLocalDataSaver.userId);
+        await AppLocalDataSaver.setString(
+            userData.userFullName.toString(), AppLocalDataSaver.userName);
 
-      return true;
-    } else {
-      return false;
-    }
+        return isDone;
+      } else {
+        return isDone;
+      }
+    } catch (e) {}
+    return false;
   }
 }
