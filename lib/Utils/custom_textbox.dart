@@ -14,6 +14,7 @@ class CustomTextbox extends StatefulWidget {
   final int maxLine;
   final TextInputType inputType;
   final bool isReadOnly;
+  GestureTapCallback? onTap;
 
   TextEditingController? controller;
   CustomTextbox({
@@ -23,6 +24,7 @@ class CustomTextbox extends StatefulWidget {
     this.isPassword = false,
     this.isNumber = false,
     this.prefixIcon,
+    this.onTap,
     this.text = "example@gmail.com",
     this.textSize = 14,
     this.height = 50,
@@ -62,6 +64,7 @@ class _CustomTextboxState extends State<CustomTextbox> {
       child: Center(
         child: TextFormField(
           maxLines: widget.maxLine,
+          onTap: widget.onTap,
           textAlignVertical: TextAlignVertical.center,
           controller: widget.textEditingController,
           readOnly: widget.isReadOnly,

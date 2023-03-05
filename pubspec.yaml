@@ -44,6 +44,7 @@ dependencies:
   delayed_display: ^2.0.0
   flutter_staggered_animations: ^1.1.1
   loading_animation_widget: ^1.2.0+4
+  flutter_datetime_picker: ^1.5.1
   flutter_signin_button: ^2.0.0
   firebase_auth: ^4.2.9
   firebase_core: ^2.7.0

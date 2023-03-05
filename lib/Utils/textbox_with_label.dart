@@ -13,6 +13,7 @@ class TextFieldWithLabel {
     bool isNumber = false,
     bool isReadOnly = false,
     int maxLines = 1,
+    GestureTapCallback? onTap,
   }) {
     return Column(
       children: [
@@ -31,6 +32,7 @@ class TextFieldWithLabel {
         ),
         CustomTextbox(
           text: hint,
+          onTap: onTap,
           textEditingController: textEditingController,
           isPassword: isPassword,
           isNumber: isNumber,
