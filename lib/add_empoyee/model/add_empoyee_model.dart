@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class AddEmployeeModel {
   String? id;
   String? name;
@@ -17,6 +19,7 @@ class AddEmployeeModel {
   String? imageURL;
   String? contact;
   String? hrId;
+  Timestamp? createdAt;
 
   AddEmployeeModel(
       {this.id,
@@ -34,6 +37,7 @@ class AddEmployeeModel {
       this.salary,
       this.joiningDate,
       this.email,
+      this.createdAt,
       this.contact,
       this.imageURL,
       this.password});
@@ -57,6 +61,7 @@ class AddEmployeeModel {
     imageURL = json['image_url'];
     contact = json['contact_no'];
     hrId = json['HR_id'];
+    createdAt = json['created_at'];
   }
 
   Map<String, dynamic> toJson() {
@@ -80,6 +85,7 @@ class AddEmployeeModel {
     data['password'] = password;
     data['image_url'] = imageURL;
     data['contact_no'] = contact;
+    data['created_at'] = createdAt;
 
     return data;
   }

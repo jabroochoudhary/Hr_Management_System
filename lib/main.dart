@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
             return GetMaterialApp(
               theme: ThemeData(fontFamily: 'Rubik'),
               debugShowCheckedModeBanner: false,
-              home: SplashScreen(),
+              home: HomeScreen(),
             );
           },
         );

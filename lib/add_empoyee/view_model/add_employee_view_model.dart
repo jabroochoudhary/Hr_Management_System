@@ -47,8 +47,10 @@ class AddEmployeeViewModel extends GetxController {
 ///////////////////////////////////////
       try {
         isLoading.value = true;
+        FocusScopeNode().unfocus();
         bool done = false;
         String id = DateTime.now().microsecondsSinceEpoch.toString();
+        Timestamp createAt = Timestamp.fromDate(DateTime.now());
         String hrid =
             (await AppLocalDataSaver.getString(AppLocalDataSaver.userId))!;
         final data = AddEmployeeModel(
@@ -63,6 +65,7 @@ class AddEmployeeViewModel extends GetxController {
           designation: designationController.value.text,
           education: educationController.value.text,
           email: emailController.value.text,
+          createdAt: createAt,
           password: passwordController.value.text,
           expertise: expertiesController.value.text,
           fatherName: fnameController.value.text,
