@@ -212,6 +212,8 @@ class SignupScreen extends StatelessWidget {
                             //     PersonalInformation(),
                             //   ),
                             // );
+                            FocusScope.of(context).unfocus();
+
                             _controllerAddEmployee.createEmployeeAccount();
                           },
                           title: "Create Employee Account",
@@ -234,7 +236,7 @@ class SignupScreen extends StatelessWidget {
 //   final Widget page;
 
 //   CustomTransition(this.page)
-//       : super(
+//       : super(;
 //           pageBuilder: (
 //             BuildContext context,
 //             Animation<double> animation,

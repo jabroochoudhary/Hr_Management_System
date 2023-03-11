@@ -3,16 +3,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
-import 'package:hr_management_system/Attendence%20Module/Components/attendence_color.dart';
-import 'package:hr_management_system/Attendence%20Module/Components/names.dart';
-import 'package:hr_management_system/Attendence%20Module/Components/user_prefrences.dart';
+import 'package:hr_management_system/Attendence%20Module/attandence_model/attandence_model.dart';
+
 import 'package:hr_management_system/Attendence%20Module/view_model/attendence_view_model.dart';
 import 'package:hr_management_system/Utils/colors.dart';
 import 'package:hr_management_system/Utils/custom_appbar.dart';
 import 'package:get/get.dart';
 import 'package:hr_management_system/Utils/custom_button.dart';
 import 'package:hr_management_system/Utils/loading_indicator.dart';
-import 'package:hr_management_system/Utils/pop_up_notification.dart';
 import 'package:hr_management_system/Utils/size_config.dart';
 import 'package:hr_management_system/add_empoyee/model/add_empoyee_model.dart';
 import 'package:hr_management_system/data_classes/constants.dart';
@@ -25,15 +23,22 @@ class AttendencePage extends StatefulWidget {
 }
 
 class _AttendencePageState extends State<AttendencePage> {
-  final studentvar = UserPrefrences.studentlist;
+  // final studentvar = UserPrefrences.studentlist;
 
-  final _controllerAttendence = Get.put(AttendenceViewModel());
+  final _controllerAttendence = Get.find<AttendenceViewModel>();
+  String date = "";
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _controllerAttendence.loadUserID();
+    final args = Get.arguments;
+
+    date = args['date'].toString();
   }
+
+  int aten = 0;
+  List<int> listAtten = [];
 
   @override
   Widget build(BuildContext context) {
@@ -75,11 +80,14 @@ class _AttendencePageState extends State<AttendencePage> {
             height: SizeConfig.heightMultiplier * 65,
             width: 400,
             color: AppColors.background,
-
             child: StreamBuilder(
               stream: FirebaseFirestore.instance
-                  .collection(AppConstants.employesCollectionName)
-                  .where(_controllerAttendence.hr_id.value)
+                  .collection(AppConstants.hrAttandenceCollection)
+                  .doc(_controllerAttendence.hr_id.value)
+                  .collection(AppConstants.datesCollectionInHrAttandence)
+                  .doc(date)
+                  .collection(
+                      AppConstants.attendenceInDatesCollectionInHrAttandence)
                   .snapshots(),
               builder: ((context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasData) {
@@ -88,7 +96,8 @@ class _AttendencePageState extends State<AttendencePage> {
                           itemCount: snapshot.data!.docs.length,
                           itemBuilder: (context, index) {
                             final res = snapshot.data!.docs[index];
-                            final employee = AddEmployeeModel.fromJson(
+                            listAtten.add(0);
+                            final employee = AttandenceModel.fromJson(
                                 res.data() as Map<String, dynamic>);
 
                             return buildAttendenceCard(
@@ -97,19 +106,12 @@ class _AttendencePageState extends State<AttendencePage> {
                         )
                       : Center(child: LoadingIndicator().loading());
                 } else {
-                  return Center(
-                    child: Text("Here is no eployee to show for attendece"),
+                  return const Center(
+                    child: Text("No eployee for attendece"),
                   );
                 }
               }),
             ),
-
-            // child: ListView.builder(
-            //     physics: BouncingScrollPhysics(),
-            //     itemCount: studentvar.length,
-            //     itemBuilder: (BuildContext context, int index) =>
-            //         buildAttendenceCard(context, index),
-            //         ),
           ),
           const SizedBox(
             height: 15,
@@ -142,21 +144,15 @@ class _AttendencePageState extends State<AttendencePage> {
     );
   }
 
-  buildAttendenceCard(BuildContext context, int index, AddEmployeeModel data) {
-    var index2 = index + 1;
-
+  buildAttendenceCard(
+      BuildContext context, int index, AttandenceModel dataAtt) {
     return FocusedMenuHolder(
       menuWidth: SizeConfig.widthMultiplier * 75,
       duration: Duration(milliseconds: 250),
       animateMenuItems: true,
       onPressed: () {
-        setState(() {
-          ChangeState(isSelectedList, index, 1);
-          ChangeColor(isSelectedList, index);
-        });
-        // Navigator.of(this.context).push(
-        // MaterialPageRoute(builder: (context) => ProfilePage()),
-        // );
+        _controllerAttendence.updateAttandenceStatus(
+            dataAtt.empId.toString(), 1, date);
       },
       menuItems: <FocusedMenuItem>[
         FocusedMenuItem(
@@ -168,13 +164,8 @@ class _AttendencePageState extends State<AttendencePage> {
                   fontSize: 15),
             ),
             onPressed: () {
-              setState(() {
-                ChangeState(isSelectedList, index, 1);
-                ChangeColor(isSelectedList, index);
-              });
-              // Navigator.of(this.context).push(
-              //   MaterialPageRoute(builder: (context) => ProfilePage()),
-              // );
+              _controllerAttendence.updateAttandenceStatus(
+                  dataAtt.empId.toString(), 1, date);
             },
             backgroundColor: Colors.green),
         //00CE2D
@@ -187,13 +178,8 @@ class _AttendencePageState extends State<AttendencePage> {
                   fontSize: 15),
             ),
             onPressed: () {
-              setState(() {
-                ChangeState(isSelectedList, index, 0);
-                ChangeColor(isSelectedList, index);
-              });
-              // Navigator.of(this.context).push(
-              //   MaterialPageRoute(builder: (context) => EditProfilePage()),
-              // );
+              _controllerAttendence.updateAttandenceStatus(
+                  dataAtt.empId.toString(), 0, date);
             },
             backgroundColor: Colors.red),
         FocusedMenuItem(
@@ -205,19 +191,21 @@ class _AttendencePageState extends State<AttendencePage> {
                   fontWeight: FontWeight.bold),
             ),
             onPressed: () {
-              setState(() {
-                ChangeState(isSelectedList, index, 2);
-                ChangeColor(isSelectedList, index);
-              });
-              // Navigator.of(this.context).push(
-              //   MaterialPageRoute(builder: (context) => ChangePassword()),
-              // );
+              _controllerAttendence.updateAttandenceStatus(
+                  dataAtt.empId.toString(), 2, date);
             },
             backgroundColor: Colors.yellow),
       ],
       child: Container(
         child: Card(
-          color: attendencecolor[index],
+          // color: attendencecolor[index],
+          color: dataAtt.status == 0
+              ? Colors.red
+              : dataAtt.status == 1
+                  ? Colors.green
+                  : dataAtt.status == 2
+                      ? Colors.yellow
+                      : Colors.white,
           elevation: 2,
           shadowColor: Colors.grey[200],
           child: Padding(
@@ -225,19 +213,19 @@ class _AttendencePageState extends State<AttendencePage> {
             child: Row(
               children: <Widget>[
                 Text(
-                  index2.toString(),
+                  (index + 1).toString(),
                   style: const TextStyle(fontSize: 20),
                 ),
                 const SizedBox(
                   width: 25,
                 ),
                 Text(
-                  data.name.toString(),
+                  dataAtt.name.toString(),
                   style: TextStyle(fontSize: 20),
                 ),
                 Spacer(),
                 Text(
-                  data.expertise.toString(),
+                  dataAtt.designation.toString(),
                   style: TextStyle(fontSize: 12),
                 ),
               ],
@@ -246,30 +234,5 @@ class _AttendencePageState extends State<AttendencePage> {
         ),
       ),
     );
-  }
-
-  void ChangeState(List<int> isSelectedList, int value, int i) {
-    isSelectedList[value] = i;
-  }
-
-  void ResetState() {
-    for (int state = 0; state < attendencecolor.length; state++) {
-      attendencecolor[state] = Colors.white;
-    }
-  }
-
-  void ChangeColor(List<int> isSelectedList, int index) {
-    if (isSelectedList[index] == 1) {
-      attendencecolor[index] = green;
-      // print("changed to : "+ isSelectedList.toString());
-    } else {
-      if (isSelectedList[index] == 2) {
-        attendencecolor[index] = yellow;
-        // print("changed to : "+ isSelectedList.toString());
-      } else {
-        attendencecolor[index] = red;
-        // print("changed to : "+ isSelectedList.toString());
-      }
-    }
   }
 }

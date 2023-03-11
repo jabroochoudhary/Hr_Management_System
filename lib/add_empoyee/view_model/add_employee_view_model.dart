@@ -47,7 +47,6 @@ class AddEmployeeViewModel extends GetxController {
 ///////////////////////////////////////
       try {
         isLoading.value = true;
-        FocusScopeNode().unfocus();
         bool done = false;
         String id = DateTime.now().microsecondsSinceEpoch.toString();
         Timestamp createAt = Timestamp.fromDate(DateTime.now());

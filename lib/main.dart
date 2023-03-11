@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hr_management_system/Home%20Module/View/home_screen.dart';
+import 'package:hr_management_system/Login%20Module/View/login_screen.dart';
 import 'package:hr_management_system/Splash%20Module/View/splash_screen.dart';
 import 'package:hr_management_system/Utils/size_config.dart';
 

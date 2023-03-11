@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hr_management_system/Attendence%20Module/View/attendence.dart';
+import 'package:get/get.dart';
+import 'package:hr_management_system/Attendence%20Module/View/dates_list.dart';
 import 'package:hr_management_system/Home%20Module/Components/drawer.dart';
 import 'package:hr_management_system/Home%20Module/Components/searchform.dart';
 import 'package:hr_management_system/Leave%20Record%20Module/View/leave_record.dart';
@@ -40,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
     "assets/logout.json",
   ];
   List<dynamic> pages = [
-    AttendencePage(),
+    DatesListView(),
     LeaveRecord(),
     LoanScreen(),
     SignupScreen(),
@@ -106,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     onTap: () {
                       // Get.to(pages[index]);
                       // print(pages[index]);
-                      Navigator.push(context, CustomTransition(pages[index]));
+                      Get.to(pages[index]);
                     },
                     child: Container(
                       // padding: EdgeInsets.all(3),
@@ -168,28 +169,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-}
-
-class CustomTransition extends PageRouteBuilder {
-  final Widget page;
-
-  CustomTransition(this.page)
-      : super(
-          pageBuilder: (
-            BuildContext context,
-            Animation<double> animation,
-            Animation<double> secondaryAnimation,
-          ) =>
-              page,
-          transitionsBuilder: (
-            BuildContext context,
-            Animation<double> animation,
-            Animation<double> secondaryAnimation,
-            Widget child,
-          ) =>
-              FadeTransition(
-            opacity: animation,
-            child: page,
-          ),
-        );
 }

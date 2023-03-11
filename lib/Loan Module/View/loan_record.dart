@@ -1,10 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 import 'package:flutter/material.dart';
-import 'package:focused_menu/focused_menu.dart';
-import 'package:focused_menu/modals.dart';
-import 'package:hr_management_system/Attendence%20Module/Components/attendence_color.dart';
-import 'package:hr_management_system/Attendence%20Module/Components/names.dart';
-import 'package:hr_management_system/Attendence%20Module/Components/user_prefrences.dart';
+
 import 'package:hr_management_system/Loan%20Module/View/loan_data.dart';
 import 'package:hr_management_system/Utils/colors.dart';
 import 'package:hr_management_system/Utils/custom_appbar.dart';
@@ -45,19 +41,18 @@ class _LoanRecordState extends State<LoanRecord> {
     "10,000",
     "50,000",
   ];
-  List dates =[
+  List dates = [
     "13/07/2022",
     "18/07/2022",
     "Total",
     "Remaining",
   ];
-  List record =[
+  List record = [
     "10,000",
     "10,000",
     "20,000",
     "5,000",
   ];
-
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +99,7 @@ class _LoanRecordState extends State<LoanRecord> {
               itemCount: names.length,
               itemBuilder: (context, index) {
                 return Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8,vertical: 4),
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   child: InkWell(
                     onTap: () {
                       Navigator.push(context, CustomTransition(LoanData()));
@@ -135,13 +130,11 @@ class _LoanRecordState extends State<LoanRecord> {
                           children: [
                             Text(
                               names[index],
-                              style: TextStyle(
-                                  color: Colors.black),
+                              style: TextStyle(color: Colors.black),
                             ),
                             Text(
                               leaves[index],
-                              style: TextStyle(
-                                  color: Colors.black),
+                              style: TextStyle(color: Colors.black),
                             ),
                           ]),
                     ),
@@ -184,26 +177,27 @@ class _LoanRecordState extends State<LoanRecord> {
     );
   }
 }
+
 class CustomTransition extends PageRouteBuilder {
   final Widget page;
 
   CustomTransition(this.page)
       : super(
-    pageBuilder: (
-        BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
-        ) =>
-    page,
-    transitionsBuilder: (
-        BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
-        Widget child,
-        ) =>
-        FadeTransition(
-          opacity: animation,
-          child: page,
-        ),
-  );
+          pageBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+          ) =>
+              page,
+          transitionsBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+            Widget child,
+          ) =>
+              FadeTransition(
+            opacity: animation,
+            child: page,
+          ),
+        );
 }
