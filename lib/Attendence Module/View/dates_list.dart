@@ -4,6 +4,7 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:get/get.dart';
 import 'package:hr_management_system/Attendence%20Module/view_model/attendence_view_model.dart';
 
+import '../../Utils/app_message/toast_message.dart';
 import '../../Utils/colors.dart';
 import '../../Utils/custom_appbar.dart';
 import '../../Utils/loading_indicator.dart';
@@ -55,7 +56,7 @@ class _DatesListViewState extends State<DatesListView> {
             card(
               "Today",
               onPressed: () {
-                _controller.setTodayAttandenceSheet();
+                _controller.setTodayAttandenceSheet(dateT: null);
               },
             ),
             card(
@@ -110,6 +111,7 @@ class _DatesListViewState extends State<DatesListView> {
                           .doc(_controller.hr_id.value)
                           .collection(
                               AppConstants.datesCollectionInHrAttandence)
+                          .orderBy("created_at", descending: true)
                           .snapshots(),
                       builder:
                           ((context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -125,13 +127,44 @@ class _DatesListViewState extends State<DatesListView> {
                               itemBuilder: (context, index) {
                                 final res = snapshot.data!.docs[index];
 
-                                return card(
-                                  "Date: ${res['id']}",
-                                  onPressed: () {
-                                    Get.to(() => AttendencePage(),
-                                        arguments: {"date": res['id']});
-                                  },
-                                );
+                                return Dismissible(
+                                    key: UniqueKey(),
+                                    onDismissed: (direction) {
+                                      _controller.deleteAttandence(res['id']);
+                                    },
+                                    confirmDismiss: (direction) async {
+                                      bool val = false;
+
+                                      await ToastMessage().defaultYesNoDialouge(
+                                          "Are you sure to delete attandence of ${res['id']}. Changes in database is permanent.",
+                                          onConfirmPressed: () {
+                                        val = true;
+                                        Get.back();
+                                        // _controller.listOfVoices
+                                        //     .removeAt(index);
+                                      }, onCancelPressed: () {
+                                        val = false;
+                                        Get.back();
+                                      });
+                                      return val;
+                                    },
+                                    background: Container(
+                                      color: Colors.red,
+                                      child: const Center(
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.white,
+                                          size: 35,
+                                        ),
+                                      ),
+                                    ),
+                                    child: card(
+                                      "Date: ${res['id']}",
+                                      onPressed: () {
+                                        Get.to(() => AttendencePage(),
+                                            arguments: {"date": res['id']});
+                                      },
+                                    ));
                               },
                             );
                           }

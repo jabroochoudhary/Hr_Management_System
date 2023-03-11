@@ -20,6 +20,8 @@ class AttendenceViewModel extends GetxController {
     if (hr_id.value.isEmpty) {
       await loadUserID();
     }
+    // print(hr_id.value);
+
     final listOfEmployes = <AddEmployeeModel>[];
 
     DateTime date = DateTime.now();
@@ -65,10 +67,15 @@ class AttendenceViewModel extends GetxController {
           .doc(hr_id.value)
           .collection(AppConstants.datesCollectionInHrAttandence)
           .doc(toDay)
-          .set({'id': toDay});
+          .set({
+        'id': toDay,
+        'created_at': DateTime.now().microsecondsSinceEpoch.toString(),
+      });
       print("Today Attandence Sheet is seted.");
     }
-    Get.to(() => AttendencePage(), arguments: {"date": toDay});
+    Get.to(() => AttendencePage(), arguments: {
+      "date": toDay,
+    });
   }
 
   updateAttandenceStatus(String docId, int value, String date) async {
@@ -104,5 +111,33 @@ class AttendenceViewModel extends GetxController {
       isHistoryHas.value = false;
       print((E.toString() + "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"));
     }
+  }
+
+  deleteAttandence(String attandenceDate) async {
+    final collectionRef = await FirebaseFirestore.instance
+        .collection(AppConstants.hrAttandenceCollection)
+        .doc(hr_id.value)
+        .collection(AppConstants.datesCollectionInHrAttandence)
+        .doc(attandenceDate)
+        .collection(AppConstants.attendenceInDatesCollectionInHrAttandence);
+    var querySnapshot = await await collectionRef.limit(50).get();
+
+    while (querySnapshot.docs.isNotEmpty) {
+      WriteBatch writeBatch = FirebaseFirestore.instance.batch();
+      querySnapshot.docs.forEach((doc) {
+        writeBatch.delete(doc.reference);
+        // print(doc.id);
+      });
+      await writeBatch.commit();
+      querySnapshot = await collectionRef.limit(50).get();
+    }
+
+    await FirebaseFirestore.instance
+        .collection(AppConstants.hrAttandenceCollection)
+        .doc(hr_id.value)
+        .collection(AppConstants.datesCollectionInHrAttandence)
+        .doc(attandenceDate)
+        .delete();
+    // print("Deleted attandence of $attandenceDate");
   }
 }
