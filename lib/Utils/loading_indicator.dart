@@ -30,4 +30,26 @@ class LoadingIndicator {
       ],
     );
   }
+
+  loadingWithLabel({String title = "Loading Data"}) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w800,
+            color: AppColors.primarycolor,
+          ),
+        ),
+        SizedBox(width: 5),
+        LoadingAnimationWidget.fourRotatingDots(
+          color: AppColors.primarycolor,
+          size: 25,
+        ),
+      ],
+    );
+  }
 }

@@ -10,13 +10,13 @@ class AttendenceViewModel extends GetxController {
   RxString hr_id = "".obs;
   RxBool isHistoryHas = false.obs;
 
-  loadUserID() async {
+  Future<void> loadUserID() async {
     hr_id.value =
         (await AppLocalDataSaver.getString(AppLocalDataSaver.userId))!;
     // print(hr_id.toString());
   }
 
-  setTodayAttandenceSheet({DateTime? dateT}) async {
+  Future<void> setTodayAttandenceSheet({DateTime? dateT}) async {
     if (hr_id.value.isEmpty) {
       await loadUserID();
     }
@@ -78,7 +78,8 @@ class AttendenceViewModel extends GetxController {
     });
   }
 
-  updateAttandenceStatus(String docId, int value, String date) async {
+  Future<void> updateAttandenceStatus(
+      String docId, int value, String date) async {
     // final toDay = "${date.day}-${date.month}-${date.year}";
 
     final instancePath = await FirebaseFirestore.instance
@@ -93,7 +94,7 @@ class AttendenceViewModel extends GetxController {
     });
   }
 
-  chekDocIsExsist() async {
+  Future<void> chekDocIsExsist() async {
     if (hr_id.value.isEmpty) {
       await loadUserID();
     }
@@ -113,7 +114,7 @@ class AttendenceViewModel extends GetxController {
     }
   }
 
-  deleteAttandence(String attandenceDate) async {
+  Future<void> deleteAttandence(String attandenceDate) async {
     final collectionRef = await FirebaseFirestore.instance
         .collection(AppConstants.hrAttandenceCollection)
         .doc(hr_id.value)

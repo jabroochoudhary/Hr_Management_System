@@ -59,87 +59,41 @@ class _AttendencePageState extends State<AttendencePage> {
           text: "Attendence",
         ),
       ),
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 15.0,
-          ),
-          const Center(
-            child: Text(
-              "Select those who are present ands \n     long press for more options",
-              style: TextStyle(
-                  fontSize: 15,
-                  color: Colors.grey,
-                  fontWeight: FontWeight.w600),
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Container(
-            height: SizeConfig.heightMultiplier * 65,
-            width: 400,
-            color: AppColors.background,
-            child: StreamBuilder(
-              stream: FirebaseFirestore.instance
-                  .collection(AppConstants.hrAttandenceCollection)
-                  .doc(_controllerAttendence.hr_id.value)
-                  .collection(AppConstants.datesCollectionInHrAttandence)
-                  .doc(date)
-                  .collection(
-                      AppConstants.attendenceInDatesCollectionInHrAttandence)
-                  .snapshots(),
-              builder: ((context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasData) {
-                  return snapshot.data!.docs.isNotEmpty
-                      ? ListView.builder(
-                          itemCount: snapshot.data!.docs.length,
-                          itemBuilder: (context, index) {
-                            final res = snapshot.data!.docs[index];
-                            listAtten.add(0);
-                            final employee = AttandenceModel.fromJson(
-                                res.data() as Map<String, dynamic>);
+      body: Container(
+        padding: const EdgeInsets.only(top: 5),
+        color: AppColors.background,
+        child: StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection(AppConstants.hrAttandenceCollection)
+              .doc(_controllerAttendence.hr_id.value)
+              .collection(AppConstants.datesCollectionInHrAttandence)
+              .doc(date)
+              .collection(
+                  AppConstants.attendenceInDatesCollectionInHrAttandence)
+              .snapshots(),
+          builder: ((context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasData) {
+              return snapshot.data!.docs.isNotEmpty
+                  ? ListView.builder(
+                      // reverse: true,
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        final res = snapshot.data!.docs[index];
+                        listAtten.add(0);
+                        final employee = AttandenceModel.fromJson(
+                            res.data() as Map<String, dynamic>);
 
-                            return buildAttendenceCard(
-                                context, index, employee);
-                          },
-                        )
-                      : Center(child: LoadingIndicator().loading());
-                } else {
-                  return const Center(
-                    child: Text("No eployee for attendece"),
-                  );
-                }
-              }),
-            ),
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          CustomButton(
-            callback: () {
-              showDialog<String>(
-                context: context,
-                builder: (BuildContext context) => AlertDialog(
-                  title: const Text('Submit Attendence?'),
-                  // content: const Text('AlertDialog description'),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, 'Cancel'),
-                      child: const Text('Cancel'),
-                    ),
-                    TextButton(
-                      onPressed: () => {},
-                      child: const Text('Submit'),
-                    ),
-                  ],
-                ),
+                        return buildAttendenceCard(context, index, employee);
+                      },
+                    )
+                  : Center(child: LoadingIndicator().loading());
+            } else {
+              return const Center(
+                child: Text("No eployee for attendece"),
               );
-            },
-            title: "Submit",
-            width: SizeConfig.widthMultiplier * 70,
-          ),
-        ],
+            }
+          }),
+        ),
       ),
     );
   }

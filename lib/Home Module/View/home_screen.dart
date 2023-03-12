@@ -96,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
               GridView.builder(
                 physics: BouncingScrollPhysics(),
                 shrinkWrap: true,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 15.0,
                   mainAxisSpacing: 25.0,
@@ -104,22 +104,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemCount: caption.length,
                 itemBuilder: (context, index) {
                   return InkWell(
-                    onTap: () {
-                      // Get.to(pages[index]);
-                      // print(pages[index]);
-                      Get.to(pages[index]);
-                    },
+                    onTap: () => Get.to(pages[index]),
                     child: Container(
                       // padding: EdgeInsets.all(3),
                       decoration: BoxDecoration(
-                        gradient: LinearGradient(
+                        gradient: const LinearGradient(
                           colors: [
                             Color.fromRGBO(143, 148, 251, 1),
                             Color.fromRGBO(143, 148, 251, .6),
                           ],
                         ),
                         borderRadius: BorderRadius.circular(15),
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                             color: Color.fromRGBO(143, 148, 251, .2),
                             blurRadius: 20.0,
@@ -131,12 +127,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           SizedBox(
-                            child: Lottie.asset(logo[index]),
                             height: SizeConfig.heightMultiplier * 17,
+                            child: Lottie.asset(logo[index]),
                           ),
                           Text(
                             caption[index],
-                            style: TextStyle(color: Colors.white, fontSize: 18),
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 18),
                           ),
                         ],
                       ),
