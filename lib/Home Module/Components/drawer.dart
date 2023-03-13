@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hr_management_system/Home%20Module/View/edit_profile.dart';
-import 'package:hr_management_system/add_empoyee/view/add_employee.dart';
+import 'package:hr_management_system/hr_modules/add_empoyee/view/add_employee.dart';
 import 'package:hr_management_system/Utils/colors.dart';
 import 'package:hr_management_system/Utils/custom_button.dart';
 import 'package:get/get.dart';

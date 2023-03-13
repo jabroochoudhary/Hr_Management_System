@@ -117,6 +117,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             value: User.HR,
                             groupValue: _user,
                             onChanged: (value) {
+                              _controllerLogIn.isHrCheck.value = true;
+
                               setState(() {
                                 _user = value!;
                               });
@@ -135,6 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             value: User.Employee,
                             groupValue: _user,
                             onChanged: (value) {
+                              _controllerLogIn.isHrCheck.value = false;
                               setState(() {
                                 _user = value!;
                               });
@@ -177,51 +180,55 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   SizedBox(height: SizeConfig.heightMultiplier * 2),
-                  DelayedDisplay(
-                    delay: Duration(
-                        milliseconds: initialDelay.inMilliseconds + 700),
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: _controllerLogIn.isLoading.value
-                          ? Center(child: LoadingIndicator().loading())
-                          : GoogleButton(
-                              callback: () async {
-                                await _controllerLogIn.lognInWithGoogle();
-                              },
-                              width: SizeConfig.widthMultiplier * 100,
-                              title: "Continue with google",
-                            ),
-                    ),
-                  ),
-                  SizedBox(height: SizeConfig.heightMultiplier * 2),
-                  DelayedDisplay(
-                    delay: Duration(
-                        milliseconds: initialDelay.inMilliseconds + 800),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "Don't have an HR account? ",
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w100,
-                              color: AppColors.textlight),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Get.to(() => HrSignup());
-                          },
-                          child: const Text(
-                            "Sign Up",
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w100,
-                                color: AppColors.coloredtext),
+                  _controllerLogIn.isHrCheck.value
+                      ? DelayedDisplay(
+                          delay: Duration(
+                              milliseconds: initialDelay.inMilliseconds + 700),
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: _controllerLogIn.isLoading.value
+                                ? SizedBox()
+                                : GoogleButton(
+                                    callback: () async {
+                                      await _controllerLogIn.lognInWithGoogle();
+                                    },
+                                    width: SizeConfig.widthMultiplier * 100,
+                                    title: "Continue with google",
+                                  ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
+                        )
+                      : SizedBox(),
+                  SizedBox(height: SizeConfig.heightMultiplier * 2),
+                  _controllerLogIn.isHrCheck.value
+                      ? DelayedDisplay(
+                          delay: Duration(
+                              milliseconds: initialDelay.inMilliseconds + 800),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                "Don't have an HR account? ",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w100,
+                                    color: AppColors.textlight),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  Get.to(() => HrSignup());
+                                },
+                                child: const Text(
+                                  "Sign Up",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w100,
+                                      color: AppColors.coloredtext),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : SizedBox(),
                   SizedBox(
                     height: SizeConfig.heightMultiplier * 0.1,
                   ),

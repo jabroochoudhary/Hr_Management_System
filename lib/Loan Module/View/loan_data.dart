@@ -6,7 +6,7 @@ import 'package:hr_management_system/Utils/custom_appbar.dart';
 import 'package:hr_management_system/Utils/size_config.dart';
 
 class LoanData extends StatelessWidget {
-  List dates =[
+  List dates = [
     "13/07/2022",
     "18/07/2022",
     "18/07/2022",
@@ -16,7 +16,7 @@ class LoanData extends StatelessWidget {
     "05/08/2022",
     "10/08/2022",
   ];
-  List record =[
+  List record = [
     "10,000",
     "5,000",
     "10,000",
@@ -49,13 +49,13 @@ class LoanData extends StatelessWidget {
       body: Column(
         children: [
           Container(
-            height: SizeConfig.heightMultiplier*75,
+            height: SizeConfig.heightMultiplier * 70,
             // margin: EdgeInsets.only(bottom: SizeConfig.heightMultiplier*5),
             child: AnimationLimiter(
               child: ListView.builder(
                 padding: EdgeInsets.all(width / 30),
-                physics:
-                BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                physics: BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics()),
                 itemCount: dates.length,
                 itemBuilder: (BuildContext context, int index) {
                   return AnimationConfiguration.staggeredList(
@@ -70,7 +70,7 @@ class LoanData extends StatelessWidget {
                         curve: Curves.fastLinearToSlowEaseIn,
                         child: Container(
                           margin: EdgeInsets.only(bottom: width / 20),
-                          height: SizeConfig.heightMultiplier*12.5,
+                          height: SizeConfig.heightMultiplier * 12.5,
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: [
@@ -95,26 +95,31 @@ class LoanData extends StatelessWidget {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-
-                                    Text("Installment $index",style: TextStyle(
-                                        color: AppColors.coloredtext,
-                                      fontWeight: FontWeight.bold,
-                                        fontSize: 16
-
-                                    ),),
+                                    Text(
+                                      "Installment $index",
+                                      style: TextStyle(
+                                          color: AppColors.coloredtext,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16),
+                                    ),
                                   ],
                                 ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(dates[index],style: TextStyle(
-                                        color: AppColors.textlight,
-                                      fontSize: 16
-                                    ),),
-                                    Text(record[index],style: TextStyle(
-                                        color: AppColors.textlight,
-                                      fontSize: 16
-                                    ),),
+                                    Text(
+                                      dates[index],
+                                      style: TextStyle(
+                                          color: AppColors.textlight,
+                                          fontSize: 16),
+                                    ),
+                                    Text(
+                                      record[index],
+                                      style: TextStyle(
+                                          color: AppColors.textlight,
+                                          fontSize: 16),
+                                    ),
                                   ],
                                 ),
                               ],
@@ -130,7 +135,7 @@ class LoanData extends StatelessWidget {
           ),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 15),
-            height: SizeConfig.heightMultiplier*12,
+            height: SizeConfig.heightMultiplier * 12,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
@@ -155,48 +160,52 @@ class LoanData extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Total Loan",style: TextStyle(
-                          color: AppColors.coloredtext,
-                        fontWeight: FontWeight.bold,
-                          fontSize: 16
-                      ),),
-                      Text("50,000",style: TextStyle(
-                          color: AppColors.textlight,
-                          fontSize: 16
-
-                      ),),
+                      Text(
+                        "Total Loan",
+                        style: TextStyle(
+                            color: AppColors.coloredtext,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16),
+                      ),
+                      Text(
+                        "50,000",
+                        style:
+                            TextStyle(color: AppColors.textlight, fontSize: 16),
+                      ),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Paid Loan",style: TextStyle(
-                          color: AppColors.coloredtext,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16
-
-                      ),),
-                      Text("30,000",style: TextStyle(
-                          color: AppColors.textlight,
-                          fontSize: 16
-
-                      ),),
+                      Text(
+                        "Paid Loan",
+                        style: TextStyle(
+                            color: AppColors.coloredtext,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16),
+                      ),
+                      Text(
+                        "30,000",
+                        style:
+                            TextStyle(color: AppColors.textlight, fontSize: 16),
+                      ),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Remaining Loan",style: TextStyle(
-                          color: AppColors.coloredtext,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16
-
-                      ),),
-                      Text("20,000",style: TextStyle(
-                          color: AppColors.textlight,
-                          fontSize: 16
-
-                      ),),
+                      Text(
+                        "Remaining Loan",
+                        style: TextStyle(
+                            color: AppColors.coloredtext,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16),
+                      ),
+                      Text(
+                        "20,000",
+                        style:
+                            TextStyle(color: AppColors.textlight, fontSize: 16),
+                      ),
                     ],
                   ),
                 ],

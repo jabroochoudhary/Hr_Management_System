@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hr_management_system/Home%20Module/View/home_screen.dart';
 import 'package:hr_management_system/Loan%20Module/Components/style.dart';
 import 'package:get/get.dart';
@@ -9,6 +9,7 @@ import 'package:hr_management_system/Utils/custom_appbar.dart';
 import 'package:hr_management_system/Utils/custom_button.dart';
 import 'package:hr_management_system/Utils/size_config.dart';
 import 'package:lottie/lottie.dart';
+
 class LoanScreen extends StatefulWidget {
   @override
   State<LoanScreen> createState() => _LoanScreenState();
@@ -23,13 +24,13 @@ class _LoanScreenState extends State<LoanScreen> {
           onPressed: () {
             Get.back();
           },
-          icon: Icon(Icons.arrow_back_ios_sharp),
+          icon: const Icon(Icons.arrow_back_ios_sharp),
         ),
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         // bottomOpacity: 0,
         elevation: 0,
-        flexibleSpace: CustomAppbar(
+        flexibleSpace: const CustomAppbar(
           text: "Loan Record",
         ),
       ),
@@ -40,42 +41,34 @@ class _LoanScreenState extends State<LoanScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                _greetings(),
-                // _trailingIcons(),
-              ],
-            ),
-            SizedBox(height: 24),
+            // SizedBox(height: 10),
             _introCard(),
             _title('Select Loan Ammount'),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                _menuItem('5,000', FontAwesomeIcons.rupeeSign,
-                    blueGradient),
-                _menuItem('10,000', FontAwesomeIcons.rupeeSign,
-                    darkRedGradient),
-                _menuItem('20,000', FontAwesomeIcons.rupeeSign,
-                    tealGradient),
+                _menuItem('5,000', blueGradient),
+                _menuItem('10,000', darkRedGradient),
+                _menuItem('20,000', tealGradient),
               ],
             ),
-            SizedBox(height: SizeConfig.heightMultiplier*1.5,),
+            SizedBox(
+              height: SizeConfig.heightMultiplier * 1.5,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                _menuItem('50,000', FontAwesomeIcons.rupeeSign, yellowGradient),
-                _menuItem('75,000', FontAwesomeIcons.rupeeSign, redGradient),
-                _menuItem(
-                    '100,000', FontAwesomeIcons.rupeeSign, purpleGradient),
+                _menuItem('50,000', yellowGradient),
+                _menuItem('75,000', redGradient),
+                _menuItem('100,000', purpleGradient),
               ],
             ),
-            SizedBox(height: SizeConfig.heightMultiplier*4,),
+            SizedBox(
+              height: SizeConfig.heightMultiplier * 4,
+            ),
             Center(
               child: CustomButton(
                 callback: () {
@@ -91,16 +84,16 @@ class _LoanScreenState extends State<LoanScreen> {
     );
   }
 
-  _menuItem(String title, IconData iconData, LinearGradient gradient) {
+  _menuItem(String title, LinearGradient gradient) {
     return Container(
       height: MediaQuery.of(context).size.width * 0.35,
       width: MediaQuery.of(context).size.width * 0.26,
-      margin: EdgeInsets.all(4),
-      padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+      margin: const EdgeInsets.all(4),
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Colors.black12,
             spreadRadius: 2,
@@ -113,19 +106,26 @@ class _LoanScreenState extends State<LoanScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
-            padding: EdgeInsets.all(18),
-            child: Center(
-              child: Icon(iconData, size: 24, color: Colors.white),
-            ),
+            padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(
               gradient: gradient,
               shape: BoxShape.circle,
             ),
+            child: Center(
+              child: Text(
+                "Rs.",
+                style: GoogleFonts.antonio(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                ),
+              ),
+            ),
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
               color: Colors.black87,
@@ -151,22 +151,22 @@ class _LoanScreenState extends State<LoanScreen> {
   _introCard() {
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.only(bottom: 30),
-      padding: EdgeInsets.all(16),
+      margin: const EdgeInsets.only(bottom: 30),
+      padding: const EdgeInsets.all(16),
       height: 160,
       decoration: BoxDecoration(
-          gradient: LinearGradient(
+          gradient: const LinearGradient(
             colors: [
               Color.fromRGBO(143, 148, 251, 1),
               Color.fromRGBO(143, 148, 251, .6),
             ],
           ),
           borderRadius: BorderRadius.circular(12),
-          image: DecorationImage(
+          image: const DecorationImage(
             image: AssetImage('assets/bg.jpg'),
             fit: BoxFit.fill,
           ),
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
               color: Color.fromRGBO(143, 148, 251, .2),
               blurRadius: 20.0,
@@ -177,7 +177,7 @@ class _LoanScreenState extends State<LoanScreen> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
+          const Text(
             'Loan Advance',
             style: TextStyle(
               color: Colors.white,
@@ -185,8 +185,8 @@ class _LoanScreenState extends State<LoanScreen> {
               fontSize: 20,
             ),
           ),
-          SizedBox(height: 12),
-          Text(
+          const SizedBox(height: 12),
+          const Text(
             'Fast,easy,secure \nlow prime rate.',
             style: TextStyle(
               color: Colors.white,
@@ -194,12 +194,12 @@ class _LoanScreenState extends State<LoanScreen> {
               fontSize: 18,
             ),
           ),
-          Spacer(flex: 1),
+          const Spacer(flex: 1),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Text(
+              const Text(
                 'Explore',
                 style: TextStyle(
                   color: Colors.white,
@@ -208,7 +208,7 @@ class _LoanScreenState extends State<LoanScreen> {
                 ),
               ),
               // SizedBox(width: 8),
-              Lottie.asset("assets/arrow.json",height: 30),
+              Lottie.asset("assets/arrow.json", height: 30),
               // Icon(FontAwesomeIcons.longArrowAltRight,
               //     size: 36, color: Colors.white),
             ],
@@ -217,53 +217,28 @@ class _LoanScreenState extends State<LoanScreen> {
       ),
     );
   }
-
-  _greetings() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          'Hello !',
-          style: TextStyle(
-            color: AppColors.text,
-            fontSize: 24,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        SizedBox(height: 4),
-        Text(
-          'Jabran Haider',
-          style: TextStyle(
-            color: Colors.grey[600],
-            fontSize: 16,
-            fontWeight: FontWeight.w400,
-          ),
-        )
-      ],
-    );
-  }
 }
+
 class CustomTransition extends PageRouteBuilder {
   final Widget page;
 
   CustomTransition(this.page)
       : super(
-    pageBuilder: (
-        BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
-        ) =>
-    page,
-    transitionsBuilder: (
-        BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
-        Widget child,
-        ) =>
-        FadeTransition(
-          opacity: animation,
-          child: page,
-        ),
-  );
+          pageBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+          ) =>
+              page,
+          transitionsBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+            Widget child,
+          ) =>
+              FadeTransition(
+            opacity: animation,
+            child: page,
+          ),
+        );
 }

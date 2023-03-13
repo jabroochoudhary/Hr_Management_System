@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hr_management_system/Home%20Module/View/home_screen.dart';
 import 'package:hr_management_system/Sign-Up%20Module/model/sign_up_mode.dart';
+import 'package:hr_management_system/hr_modules/add_empoyee/model/add_empoyee_model.dart';
 import 'package:hr_management_system/data_classes/constants.dart';
 
 import '../../Utils/pop_up_notification.dart';
@@ -17,6 +18,7 @@ class LogInViewModel extends GetxController {
   final userNameController = TextEditingController().obs;
 ////////////////////////////////////
   RxString userId = "".obs;
+  RxBool isHrCheck = true.obs;
 
   ////////////////////////////////
   ////  Google sign up implementatin
@@ -48,7 +50,7 @@ class LogInViewModel extends GetxController {
         userId.value = user.uid.toString();
 
         if (await isUserProfileComplete(userId.toString())) {
-          Get.off(() => HomeScreen());
+          Get.off(() => HomeScreen(isHrCheck.value));
         } else {
           PopUpNotification()
               .show("Complete your profile to continue.", "Info");
@@ -96,7 +98,7 @@ class LogInViewModel extends GetxController {
         if (isDone && user != null) {
           userId.value = user!.uid.toString();
           if (await isUserProfileComplete(userId.value)) {
-            Get.off(() => HomeScreen());
+            Get.off(() => HomeScreen(isHrCheck.value));
           } else {
             isLoading.value = false;
             PopUpNotification()
@@ -123,29 +125,61 @@ class LogInViewModel extends GetxController {
 
 //////////////////////////////////////
   Future<bool> isUserProfileComplete(String uid) async {
-    SignUpModel userData = SignUpModel();
-    try {
-      await FirebaseFirestore.instance
-          .collection(AppConstants.hrCollectionName)
-          .doc(uid)
-          .get()
-          .then((value) {
-        userData = SignUpModel.fromJson(value.data() as Map<String, dynamic>);
-      }).timeout(Duration(seconds: 10));
-      if (userData.email!.isNotEmpty) {
-        await AppLocalDataSaver.setString(
-            userData.email.toString(), AppLocalDataSaver.userEmail);
-        await AppLocalDataSaver.setString(
-            uid.toString(), AppLocalDataSaver.userId);
-        await AppLocalDataSaver.setString(
-            userData.userFullName.toString(), AppLocalDataSaver.userName);
+    if (isHrCheck.value) {
+      SignUpModel userData = SignUpModel();
+      try {
+        await FirebaseFirestore.instance
+            .collection(AppConstants.hrCollectionName)
+            .doc(uid)
+            .get()
+            .then((value) {
+          userData = SignUpModel.fromJson(value.data() as Map<String, dynamic>);
+        }).timeout(Duration(seconds: 10));
+        if (userData.email!.isNotEmpty) {
+          await AppLocalDataSaver.setString(
+              userData.email.toString(), AppLocalDataSaver.userEmail);
+          await AppLocalDataSaver.setString(
+              uid.toString(), AppLocalDataSaver.userId);
+          await AppLocalDataSaver.setString(
+              userData.userFullName.toString(), AppLocalDataSaver.userName);
+          await AppLocalDataSaver.setBool(
+              isHrCheck.value, AppLocalDataSaver.isHRLoginKey);
 
-        return true;
-      } else {
-        return false;
-      }
-    } catch (e) {}
-    return false;
+          return true;
+        } else {
+          return false;
+        }
+      } catch (e) {}
+      return false;
+    } else {
+      // print("Employee");
+      AddEmployeeModel userData = AddEmployeeModel();
+      try {
+        await FirebaseFirestore.instance
+            .collection(AppConstants.employesCollectionName)
+            .where("email", isEqualTo: useremailController.value.text)
+            .where("password", isEqualTo: userpasswordController.value.text)
+            .get()
+            .then((value) {
+          userData = AddEmployeeModel.fromJson(value.docs[0].data());
+        }).timeout(Duration(seconds: 10));
+        if (userData.email!.isNotEmpty) {
+          await AppLocalDataSaver.setString(
+              userData.email.toString(), AppLocalDataSaver.userEmail);
+          await AppLocalDataSaver.setString(
+              uid.toString(), AppLocalDataSaver.userId);
+          await AppLocalDataSaver.setString(
+              userData.name.toString(), AppLocalDataSaver.userName);
+          await AppLocalDataSaver.setBool(
+              isHrCheck.value, AppLocalDataSaver.isHRLoginKey);
+
+          return true;
+        } else {
+          return false;
+        }
+      } catch (e) {}
+      return false;
+    }
   }
 
 //////////////////////////////////////////////////

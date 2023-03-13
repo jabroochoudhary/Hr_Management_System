@@ -1,17 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
-import 'package:hr_management_system/Leave%20Record%20Module/View/leave_data.dart';
-import 'package:hr_management_system/Leave%20Record%20Module/view_model/leave_record_view_model.dart';
+import 'package:hr_management_system/hr_modules/Leave%20Record%20Module/View/leave_data.dart';
+import 'package:hr_management_system/hr_modules/Leave%20Record%20Module/view_model/leave_record_view_model.dart';
 import 'package:hr_management_system/Utils/colors.dart';
 import 'package:hr_management_system/Utils/custom_appbar.dart';
 import 'package:get/get.dart';
 import 'package:hr_management_system/Utils/custom_button.dart';
 import 'package:hr_management_system/Utils/size_config.dart';
-import 'package:hr_management_system/add_empoyee/model/add_empoyee_model.dart';
+import 'package:hr_management_system/hr_modules/add_empoyee/model/add_empoyee_model.dart';
 
-import '../../Utils/loading_indicator.dart';
-import '../../data_classes/constants.dart';
+import '../../../Utils/loading_indicator.dart';
+import '../../../data_classes/constants.dart';
 
 class LeaveRecord extends StatefulWidget {
   LeaveRecord({Key? key}) : super(key: key);

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:hr_management_system/Leave%20Record%20Module/view_model/leave_record_view_model.dart';
+import 'package:hr_management_system/hr_modules/Leave%20Record%20Module/view_model/leave_record_view_model.dart';
 import 'package:hr_management_system/Utils/colors.dart';
 import 'package:get/get.dart';
 import 'package:hr_management_system/Utils/custom_appbar.dart';

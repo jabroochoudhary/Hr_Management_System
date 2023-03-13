@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hr_management_system/Utils/pop_up_notification.dart';
-import 'package:hr_management_system/add_empoyee/model/add_empoyee_model.dart';
+import 'package:hr_management_system/hr_modules/add_empoyee/model/add_empoyee_model.dart';
 import 'package:hr_management_system/data_classes/constants.dart';
 import 'package:hr_management_system/data_classes/local_data_saver.dart';
 

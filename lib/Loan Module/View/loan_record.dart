@@ -69,110 +69,60 @@ class _LoanRecordState extends State<LoanRecord> {
         backgroundColor: Colors.transparent,
         // bottomOpacity: 0,
         elevation: 0,
-        flexibleSpace: CustomAppbar(
+        flexibleSpace: const CustomAppbar(
           text: "Loan Record",
         ),
       ),
-      body: Column(
-        children: [
-          SizedBox(
-            height: 15.0,
-          ),
-          Center(
-            child: Text(
-              "Remaining Loan of Employees",
-              style: TextStyle(
-                  fontSize: 15,
-                  color: Colors.grey,
-                  fontWeight: FontWeight.w600),
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Container(
-            height: SizeConfig.heightMultiplier * 72,
-            width: 400,
-            // color: Colors.orange,
-            child: ListView.builder(
-              physics: BouncingScrollPhysics(),
-              itemCount: names.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(context, CustomTransition(LoanData()));
-                    },
-                    splashColor: Colors.green,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 15),
-                      // width: SizeConfig.widthMultiplier*50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Colors.white70,
-                            Colors.white70,
-                          ],
-                        ),
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color.fromRGBO(143, 148, 251, .2),
-                            blurRadius: 20.0,
-                            offset: Offset(0, 10),
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              names[index],
-                              style: TextStyle(color: Colors.black),
-                            ),
-                            Text(
-                              leaves[index],
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ]),
-                    ),
-                  ),
-                );
+      body: ListView.builder(
+        physics: const BouncingScrollPhysics(),
+        itemCount: names.length,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            child: InkWell(
+              onTap: () {
+                Navigator.push(context, CustomTransition(LoanData()));
               },
-              // ListTile(
-
-              // )),
-            ),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          CustomButton(
-            callback: () {
-              showDialog<String>(
-                context: context,
-                builder: (BuildContext context) => AlertDialog(
-                  title: const Text('Submit Leave Record?'),
-                  // content: const Text('AlertDialog description'),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () => Get.back(),
-                      child: const Text('Cancel'),
-                    ),
-                    TextButton(
-                      onPressed: () => {},
-                      child: const Text('Submit'),
+              splashColor: Colors.green,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                // width: SizeConfig.widthMultiplier*50,
+                height: 50,
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [
+                      Colors.white70,
+                      Colors.white70,
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color.fromRGBO(143, 148, 251, .2),
+                      blurRadius: 20.0,
+                      offset: Offset(0, 10),
                     ),
                   ],
                 ),
-              );
-            },
-            title: "Submit",
-            width: SizeConfig.widthMultiplier * 70,
-          ),
-        ],
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        names[index],
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      Text(
+                        leaves[index],
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ]),
+              ),
+            ),
+          );
+        },
+        // ListTile(
+
+        // )),
       ),
     );
   }

@@ -2,14 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:get/get.dart';
-import 'package:hr_management_system/Attendence%20Module/view_model/attendence_view_model.dart';
+import 'package:hr_management_system/hr_modules/Attendence%20Module/view_model/attendence_view_model.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
-import '../../Utils/app_message/toast_message.dart';
-import '../../Utils/colors.dart';
-import '../../Utils/custom_appbar.dart';
-import '../../Utils/loading_indicator.dart';
-import '../../Utils/size_config.dart';
-import '../../data_classes/constants.dart';
+import '../../../Utils/app_message/toast_message.dart';
+import '../../../Utils/colors.dart';
+import '../../../Utils/custom_appbar.dart';
+import '../../../Utils/loading_indicator.dart';
+import '../../../Utils/size_config.dart';
+import '../../../data_classes/constants.dart';
 import 'attendence.dart';
 
 class DatesListView extends StatefulWidget {

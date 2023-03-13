@@ -8,7 +8,7 @@ import 'package:hr_management_system/Utils/custom_appbar.dart';
 import 'package:hr_management_system/Utils/custom_button.dart';
 import 'package:get/get.dart';
 import 'package:hr_management_system/Utils/size_config.dart';
-import 'package:hr_management_system/add_empoyee/view_model/add_employee_view_model.dart';
+import 'package:hr_management_system/hr_modules/add_empoyee/view_model/add_employee_view_model.dart';
 
 class SignupScreen extends StatelessWidget {
   SignupScreen({Key? key}) : super(key: key);

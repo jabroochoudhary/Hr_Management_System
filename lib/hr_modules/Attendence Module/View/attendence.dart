@@ -3,16 +3,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
-import 'package:hr_management_system/Attendence%20Module/attandence_model/attandence_model.dart';
+import 'package:hr_management_system/hr_modules/Attendence%20Module/attandence_model/attandence_model.dart';
 
-import 'package:hr_management_system/Attendence%20Module/view_model/attendence_view_model.dart';
+import 'package:hr_management_system/hr_modules/Attendence%20Module/view_model/attendence_view_model.dart';
 import 'package:hr_management_system/Utils/colors.dart';
 import 'package:hr_management_system/Utils/custom_appbar.dart';
 import 'package:get/get.dart';
 import 'package:hr_management_system/Utils/custom_button.dart';
 import 'package:hr_management_system/Utils/loading_indicator.dart';
 import 'package:hr_management_system/Utils/size_config.dart';
-import 'package:hr_management_system/add_empoyee/model/add_empoyee_model.dart';
+import 'package:hr_management_system/hr_modules/add_empoyee/model/add_empoyee_model.dart';
 import 'package:hr_management_system/data_classes/constants.dart';
 
 class AttendencePage extends StatefulWidget {
