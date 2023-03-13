@@ -48,6 +48,7 @@ class LeaveRecordViewModel extends GetxController {
         .collection(AppConstants.hrAttandenceCollection)
         .doc(hr_id.value)
         .collection(AppConstants.datesCollectionInHrAttandence)
+        .orderBy("created_at", descending: true)
         .get()
         .then((value) {
       for (var element in value.docs) {

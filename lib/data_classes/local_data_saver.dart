@@ -4,6 +4,7 @@ class AppLocalDataSaver {
   static String userId = "CURRUNTUSERIDKEY";
   static String userName = "USERNAMEKEY";
   static String userEmail = "USEREMAILKEY";
+  static String empHRidKey = "EMPHRIDKEY";
   static String isHRLoginKey = "ISHRLOGIN";
 
   static Future<void> setString(String value, String key) async {

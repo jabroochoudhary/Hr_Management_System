@@ -167,9 +167,11 @@ class LogInViewModel extends GetxController {
           await AppLocalDataSaver.setString(
               userData.email.toString(), AppLocalDataSaver.userEmail);
           await AppLocalDataSaver.setString(
-              uid.toString(), AppLocalDataSaver.userId);
+              userData.id.toString(), AppLocalDataSaver.userId);
           await AppLocalDataSaver.setString(
               userData.name.toString(), AppLocalDataSaver.userName);
+          await AppLocalDataSaver.setString(
+              userData.hrId.toString(), AppLocalDataSaver.empHRidKey);
           await AppLocalDataSaver.setBool(
               isHrCheck.value, AppLocalDataSaver.isHRLoginKey);
 
