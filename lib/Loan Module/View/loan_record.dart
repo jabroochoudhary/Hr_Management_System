@@ -1,7 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 import 'package:flutter/material.dart';
 
-import 'package:hr_management_system/Loan%20Module/View/loan_data.dart';
+import 'package:hr_management_system/Loan%20Module/View/loan_details.dart';
 import 'package:hr_management_system/Utils/colors.dart';
 import 'package:hr_management_system/Utils/custom_appbar.dart';
 import 'package:get/get.dart';
@@ -81,7 +81,7 @@ class _LoanRecordState extends State<LoanRecord> {
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             child: InkWell(
               onTap: () {
-                Navigator.push(context, CustomTransition(LoanData()));
+                Navigator.push(context, CustomTransition(LoanDetails()));
               },
               splashColor: Colors.green,
               child: Container(

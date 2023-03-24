@@ -1,31 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hr_management_system/Loan%20Module/View/loan_record.dart';
 import 'package:hr_management_system/emp_modules/emp_attendence/view/emp_attendence_view.dart';
 import 'package:hr_management_system/hr_modules/Attendence%20Module/View/dates_list.dart';
 import 'package:hr_management_system/Home%20Module/Components/drawer.dart';
 import 'package:hr_management_system/Home%20Module/Components/searchform.dart';
 import 'package:hr_management_system/hr_modules/Leave%20Record%20Module/View/leave_record.dart';
-import 'package:hr_management_system/Loan%20Module/View/loan_screen.dart';
+import 'package:hr_management_system/Loan%20Module/View/get_loan_view.dart';
 import 'package:hr_management_system/Login%20Module/View/login_screen.dart';
 import 'package:hr_management_system/Report%20Module/View/report_screen.dart';
 import 'package:hr_management_system/hr_modules/add_empoyee/view/add_employee.dart';
 import 'package:hr_management_system/Utils/colors.dart';
 import 'package:hr_management_system/Utils/custom_appbar.dart';
 import 'package:hr_management_system/Utils/size_config.dart';
+import 'package:hr_management_system/notification_module/views/notification_view.dart';
 import 'package:lottie/lottie.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   bool isHr;
   HomeScreen(
     this.isHr, {
     Key? key,
   }) : super(key: key);
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
   // int selectedcontainer=0;
   List hrCaption = [
     "Attendence",
@@ -48,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<dynamic> hrPages = [
     DatesListView(),
     LeaveRecord(),
-    LoanScreen(),
+    LoanRecord(),
     SignupScreen(),
     ReportScreen(),
     LoginScreen(),
@@ -57,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
 ///////////////////////////////////////
   List empCaption = [
     "Attendence",
-    "Loan Record",
+    "Get Loan",
     "Reports",
     "Logout",
   ];
@@ -71,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<dynamic> empPages = [
     EMPAttendenceView(),
-    LoanScreen(),
+    GetLoanView(),
     ReportScreen(),
     LoginScreen(),
   ];
@@ -93,7 +90,9 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           Row(
             children: [
-              Icon(Icons.notifications_none),
+              InkWell(
+                  onTap: () => Get.to(() => NotificationView()),
+                  child: Icon(Icons.notifications_none)),
               SizedBox(
                 width: SizeConfig.widthMultiplier * 3,
               )
@@ -129,11 +128,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisSpacing: 15.0,
                   mainAxisSpacing: 25.0,
                 ),
-                itemCount: widget.isHr ? hrCaption.length : empCaption.length,
+                itemCount: isHr ? hrCaption.length : empCaption.length,
                 itemBuilder: (context, index) {
                   return InkWell(
                     onTap: () =>
-                        Get.to(widget.isHr ? hrPages[index] : empPages[index]),
+                        Get.to(isHr ? hrPages[index] : empPages[index]),
                     child: Container(
                       // padding: EdgeInsets.all(3),
                       decoration: BoxDecoration(
@@ -158,10 +157,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           SizedBox(
                             height: SizeConfig.heightMultiplier * 17,
                             child: Lottie.asset(
-                                widget.isHr ? hrLogo[index] : empLogo[index]),
+                                isHr ? hrLogo[index] : empLogo[index]),
                           ),
                           Text(
-                            widget.isHr ? hrCaption[index] : empCaption[index],
+                            isHr ? hrCaption[index] : empCaption[index],
                             style: const TextStyle(
                                 color: Colors.white, fontSize: 18),
                           ),

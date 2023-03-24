@@ -10,12 +10,7 @@ import 'package:hr_management_system/Utils/custom_button.dart';
 import 'package:hr_management_system/Utils/size_config.dart';
 import 'package:lottie/lottie.dart';
 
-class LoanScreen extends StatefulWidget {
-  @override
-  State<LoanScreen> createState() => _LoanScreenState();
-}
-
-class _LoanScreenState extends State<LoanScreen> {
+class GetLoanView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +26,7 @@ class _LoanScreenState extends State<LoanScreen> {
         // bottomOpacity: 0,
         elevation: 0,
         flexibleSpace: const CustomAppbar(
-          text: "Loan Record",
+          text: "Get Loan",
         ),
       ),
       backgroundColor: AppColors.background,
@@ -42,16 +37,16 @@ class _LoanScreenState extends State<LoanScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // SizedBox(height: 10),
-            _introCard(),
+            // _introCard(),
             _title('Select Loan Ammount'),
             const SizedBox(height: 12),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                _menuItem('5,000', blueGradient),
-                _menuItem('10,000', darkRedGradient),
-                _menuItem('20,000', tealGradient),
+                _menuItem(context, '5,000', blueGradient),
+                _menuItem(context, '10,000', darkRedGradient),
+                _menuItem(context, '20,000', tealGradient),
               ],
             ),
             SizedBox(
@@ -61,9 +56,9 @@ class _LoanScreenState extends State<LoanScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                _menuItem('50,000', yellowGradient),
-                _menuItem('75,000', redGradient),
-                _menuItem('100,000', purpleGradient),
+                _menuItem(context, '50,000', yellowGradient),
+                _menuItem(context, '75,000', redGradient),
+                _menuItem(context, '100,000', purpleGradient),
               ],
             ),
             SizedBox(
@@ -84,7 +79,7 @@ class _LoanScreenState extends State<LoanScreen> {
     );
   }
 
-  _menuItem(String title, LinearGradient gradient) {
+  _menuItem(BuildContext context, String title, LinearGradient gradient) {
     return Container(
       height: MediaQuery.of(context).size.width * 0.35,
       width: MediaQuery.of(context).size.width * 0.26,

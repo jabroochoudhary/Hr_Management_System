@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:hr_management_system/Utils/custom_appbar.dart';
 import 'package:hr_management_system/Utils/size_config.dart';
 
-class LoanData extends StatelessWidget {
+class LoanDetails extends StatelessWidget {
   List dates = [
     "13/07/2022",
     "18/07/2022",
@@ -43,7 +43,7 @@ class LoanData extends StatelessWidget {
         // bottomOpacity: 0,
         elevation: 0,
         flexibleSpace: CustomAppbar(
-          text: "Loan Record",
+          text: "Loan Details",
         ),
       ),
       body: Column(

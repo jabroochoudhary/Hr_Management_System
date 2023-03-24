@@ -86,11 +86,11 @@ class _AttendencePageState extends State<AttendencePage> {
                         return buildAttendenceCard(context, index, employee);
                       },
                     )
-                  : Center(child: LoadingIndicator().loading());
+                  : const Center(
+                      child: Text("No eployee for attendece"),
+                    );
             } else {
-              return const Center(
-                child: Text("No eployee for attendece"),
-              );
+              return Center(child: LoadingIndicator().loading());
             }
           }),
         ),

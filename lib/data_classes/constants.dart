@@ -1,5 +1,7 @@
 class AppConstants {
   static const hrCollectionName = "HR_Users";
+  static const notificationCollectionName = "Notifications";
+
   static const employesCollectionName = "Employees";
   static const hrAttandenceCollection = "HR_Attandence";
   static const datesCollectionInHrAttandence = "Attandence_Dates";
