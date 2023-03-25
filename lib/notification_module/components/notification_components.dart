@@ -6,9 +6,12 @@ class NotificationComponets {
     String title = "Leave Request",
     String senderName = "Jabran Haider",
     String designation = "Flutter Developer",
-    String requestedAt = "10-03-2023",
+    String requestedAt = "",
     bool isActive = true,
+    GestureTapCallback? onPressed,
   }) {
+    final datet = DateTime.fromMicrosecondsSinceEpoch(int.parse(requestedAt));
+    final date = "${datet.day}-${datet.month}-${datet.year}";
     return Container(
       padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.all(6),
@@ -18,59 +21,62 @@ class NotificationComponets {
             : AppColors.primarycolor,
         borderRadius: BorderRadius.circular(5),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                title,
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    color: isActive ? Colors.yellow : Colors.black),
-              ),
-              Icon(
-                isActive ? Icons.notifications_active : Icons.notifications,
-                color: isActive ? Colors.yellow : Colors.white,
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                senderName,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
+      child: InkWell(
+        onTap: onPressed,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                      color: isActive ? Colors.yellow : Colors.black),
                 ),
-              ),
-              Text(
-                designation,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
+                Icon(
+                  isActive ? Icons.notifications_active : Icons.notifications,
+                  color: isActive ? Colors.yellow : Colors.white,
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Requested at: $requestedAt",
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  senderName,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ],
+                Text(
+                  designation,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Received at: $date",
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
