@@ -53,7 +53,7 @@ class NotificationView extends StatelessWidget {
                           return NotificationComponets().card(
                               designation: notifi.designation!,
                               isActive: notifi.isActive!,
-                              requestedAt: notifi.createdAt!,
+                              requestedAt: notifi.id!,
                               senderName: notifi.senderName!,
                               title: notifi.title!);
                         },

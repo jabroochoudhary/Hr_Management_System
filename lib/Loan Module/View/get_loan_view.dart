@@ -1,214 +1,187 @@
+import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:hr_management_system/Home%20Module/View/home_screen.dart';
-import 'package:hr_management_system/Loan%20Module/Components/style.dart';
+import 'package:hr_management_system/Loan%20Module/Components/loan_components.dart';
 import 'package:get/get.dart';
-import 'package:hr_management_system/Loan%20Module/View/loan_record.dart';
+import 'package:hr_management_system/Loan%20Module/view_model/loan_view_model.dart';
 import 'package:hr_management_system/Utils/colors.dart';
 import 'package:hr_management_system/Utils/custom_appbar.dart';
-import 'package:hr_management_system/Utils/custom_button.dart';
 import 'package:hr_management_system/Utils/size_config.dart';
-import 'package:lottie/lottie.dart';
+
+import '../../Utils/custom_button.dart';
+import '../../Utils/custom_textbox.dart';
 
 class GetLoanView extends StatelessWidget {
+  final _controller = Get.put(LoanViewModel());
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Get.back();
-          },
-          icon: const Icon(Icons.arrow_back_ios_sharp),
-        ),
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
-        // bottomOpacity: 0,
-        elevation: 0,
-        flexibleSpace: const CustomAppbar(
-          text: "Get Loan",
-        ),
-      ),
-      backgroundColor: AppColors.background,
-      body: SingleChildScrollView(
-        padding: EdgeInsets.only(left: 16, top: 10, right: 16),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // SizedBox(height: 10),
-            // _introCard(),
-            _title('Select Loan Ammount'),
-            const SizedBox(height: 12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                _menuItem(context, '5,000', blueGradient),
-                _menuItem(context, '10,000', darkRedGradient),
-                _menuItem(context, '20,000', tealGradient),
-              ],
-            ),
-            SizedBox(
-              height: SizeConfig.heightMultiplier * 1.5,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                _menuItem(context, '50,000', yellowGradient),
-                _menuItem(context, '75,000', redGradient),
-                _menuItem(context, '100,000', purpleGradient),
-              ],
-            ),
-            SizedBox(
-              height: SizeConfig.heightMultiplier * 4,
-            ),
-            Center(
-              child: CustomButton(
-                callback: () {
-                  Navigator.push(context, CustomTransition(LoanRecord()));
-                },
-                title: "Check Loan",
-                width: SizeConfig.widthMultiplier * 70,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  _menuItem(BuildContext context, String title, LinearGradient gradient) {
-    return Container(
-      height: MediaQuery.of(context).size.width * 0.35,
-      width: MediaQuery.of(context).size.width * 0.26,
-      margin: const EdgeInsets.all(4),
-      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black12,
-            spreadRadius: 2,
-            blurRadius: 2,
+    return Obx(
+      () => Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              Get.back();
+            },
+            icon: const Icon(Icons.arrow_back_ios_sharp),
           ),
-        ],
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            padding: const EdgeInsets.all(18),
-            decoration: BoxDecoration(
-              gradient: gradient,
-              shape: BoxShape.circle,
-            ),
-            child: Center(
-              child: Text(
-                "Rs.",
-                style: GoogleFonts.antonio(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.transparent,
+          // bottomOpacity: 0,
+          elevation: 0,
+          flexibleSpace: const CustomAppbar(
+            text: "Get Loan",
+          ),
+        ),
+        backgroundColor: AppColors.background,
+        body: SingleChildScrollView(
+          padding: EdgeInsets.only(left: 16, top: 10, right: 16),
+          child: _controller.selectedAmount.value < 1
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // SizedBox(height: 10),
+                    // _introCard(),
+                    LoanComponents().title('Select Loan Ammount'),
+                    const SizedBox(height: 12),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        LoanComponents().menuItem(
+                          context,
+                          '5,000',
+                          blueGradient,
+                          onPressed: () {
+                            _controller.selectedAmount.value = 5000;
+                          },
+                        ),
+                        LoanComponents().menuItem(
+                          context,
+                          '10,000',
+                          darkRedGradient,
+                          onPressed: () {
+                            _controller.selectedAmount.value = 10000;
+                          },
+                        ),
+                        LoanComponents().menuItem(
+                          context,
+                          '20,000',
+                          tealGradient,
+                          onPressed: () {
+                            _controller.selectedAmount.value = 20000;
+                          },
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: SizeConfig.heightMultiplier * 1.5,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        LoanComponents().menuItem(
+                          context,
+                          '50,000',
+                          yellowGradient,
+                          onPressed: () {
+                            _controller.selectedAmount.value = 50000;
+                          },
+                        ),
+                        LoanComponents().menuItem(
+                          context,
+                          '75,000',
+                          redGradient,
+                          onPressed: () {
+                            _controller.selectedAmount.value = 75000;
+                          },
+                        ),
+                        LoanComponents().menuItem(
+                          context,
+                          '100,000',
+                          purpleGradient,
+                          onPressed: () {
+                            _controller.selectedAmount.value = 100000;
+                          },
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: SizeConfig.heightMultiplier * 4,
+                    ),
+
+                    // Center(
+                    //   child: CustomButton(
+                    //     callback: () {
+                    //       Navigator.push(context, CustomTransition(LoanRecord()));
+                    //     },
+                    //     title: "Check Loan",
+                    //     width: SizeConfig.widthMultiplier * 70,
+                    //   ),
+                    // ),
+                  ],
+                )
+              : Column(
+                  children: [
+                    LoanComponents().title(
+                      "Selected loan amount is Rs. ${_controller.selectedAmount.value} only.",
+                    ),
+                    SizedBox(height: SizeConfig.heightMultiplier * 4),
+                    DelayedDisplay(
+                      delay: const Duration(milliseconds: 400),
+                      child: CustomTextbox(
+                        text: "Reason of Loan",
+                        maxLine: 5,
+                        height: 100,
+                        inputType: TextInputType.text,
+                        textEditingController: _controller.descController.value,
+                      ),
+                    ),
+                    SizedBox(height: SizeConfig.heightMultiplier * 2),
+                    DelayedDisplay(
+                      delay: const Duration(milliseconds: 500),
+                      child: CustomTextbox(
+                        text: "Installments",
+                        inputType: TextInputType.number,
+                        textEditingController:
+                            _controller.installmentsController.value,
+                      ),
+                    ),
+                    SizedBox(height: SizeConfig.heightMultiplier * 2),
+                    const DelayedDisplay(
+                      delay: Duration(milliseconds: 500),
+                      child: Text(
+                        "HR will be notified for request of your loan. After approval, the loan installment will deduct from your salary.",
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                          fontSize: 15,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: SizeConfig.heightMultiplier * 4),
+                    Center(
+                      child: CustomButton(
+                        callback: () {
+                          _controller.requestLoan();
+                        },
+                        title: "Request Loan",
+                        width: SizeConfig.widthMultiplier * 87,
+                      ),
+                    ),
+                    SizedBox(height: SizeConfig.heightMultiplier * 4),
+                    Center(
+                      child: CustomButton(
+                        callback: () {
+                          _controller.selectedAmount.value = 0;
+                        },
+                        title: "Reset Loan Amount",
+                        width: SizeConfig.widthMultiplier * 87,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: Colors.black87,
-            ),
-            textAlign: TextAlign.center,
-          )
-        ],
-      ),
-    );
-  }
-
-  _title(String title) {
-    return Text(
-      title,
-      style: TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.w600,
-        color: Colors.blueGrey[900],
-      ),
-    );
-  }
-
-  _introCard() {
-    return Container(
-      width: double.infinity,
-      margin: const EdgeInsets.only(bottom: 30),
-      padding: const EdgeInsets.all(16),
-      height: 160,
-      decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [
-              Color.fromRGBO(143, 148, 251, 1),
-              Color.fromRGBO(143, 148, 251, .6),
-            ],
-          ),
-          borderRadius: BorderRadius.circular(12),
-          image: const DecorationImage(
-            image: AssetImage('assets/bg.jpg'),
-            fit: BoxFit.fill,
-          ),
-          boxShadow: const [
-            BoxShadow(
-              color: Color.fromRGBO(143, 148, 251, .2),
-              blurRadius: 20.0,
-              offset: Offset(0, 10),
-            )
-          ]),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          const Text(
-            'Loan Advance',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w600,
-              fontSize: 20,
-            ),
-          ),
-          const SizedBox(height: 12),
-          const Text(
-            'Fast,easy,secure \nlow prime rate.',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w500,
-              fontSize: 18,
-            ),
-          ),
-          const Spacer(flex: 1),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              const Text(
-                'Explore',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 19,
-                ),
-              ),
-              // SizedBox(width: 8),
-              Lottie.asset("assets/arrow.json", height: 30),
-              // Icon(FontAwesomeIcons.longArrowAltRight,
-              //     size: 36, color: Colors.white),
-            ],
-          )
-        ],
+        ),
       ),
     );
   }

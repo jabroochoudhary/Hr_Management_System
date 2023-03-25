@@ -6,7 +6,6 @@ class NotificationModel {
     this.receiverId,
     this.senderName,
     this.designation,
-    this.createdAt,
     this.isActive,
     this.message,
   });
@@ -16,7 +15,6 @@ class NotificationModel {
   String? receiverId;
   String? senderName;
   String? designation;
-  String? createdAt;
   bool? isActive;
   String? message;
 
@@ -27,7 +25,6 @@ class NotificationModel {
     receiverId = json['receiver_id'];
     senderName = json['sender_name'];
     designation = json['designation'];
-    createdAt = json['created_at'];
     isActive = json['isActive'];
     message = json['message'];
   }
@@ -40,7 +37,6 @@ class NotificationModel {
     _data['receiver_id'] = receiverId;
     _data['sender_name'] = senderName;
     _data['designation'] = designation;
-    _data['created_at'] = createdAt;
     _data['isActive'] = isActive;
     _data['message'] = message;
     return _data;
