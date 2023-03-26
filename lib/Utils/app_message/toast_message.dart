@@ -27,6 +27,8 @@ class ToastMessage {
     String title, {
     GestureTapCallback? onCancelPressed,
     GestureTapCallback? onConfirmPressed,
+    String yesText = "Delete",
+    String noText = "Cancel",
   }) {
     return Get.defaultDialog(
       cancelTextColor: AppColors.primarycolor,
@@ -57,7 +59,7 @@ class ToastMessage {
           ),
           child: Center(
             child: Text(
-              "Cancel",
+              noText,
               style: TextStyle(
                 color: AppColors.background,
               ),
@@ -79,7 +81,7 @@ class ToastMessage {
           ),
           child: Center(
             child: Text(
-              "Delete",
+              yesText,
               style: TextStyle(
                 color: AppColors.background,
               ),

@@ -1,153 +1,90 @@
 // ignore_for_file: non_constant_identifier_names
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
+import 'package:hr_management_system/Loan%20Module/Components/loan_components.dart';
 import 'package:hr_management_system/Loan%20Module/View/loan_details.dart';
+import 'package:hr_management_system/Loan%20Module/model/loan_master_model.dart';
+import 'package:hr_management_system/Loan%20Module/view_model/loan_view_model.dart';
 import 'package:hr_management_system/Utils/colors.dart';
 import 'package:hr_management_system/Utils/custom_appbar.dart';
 import 'package:get/get.dart';
-import 'package:hr_management_system/Utils/custom_button.dart';
-import 'package:hr_management_system/Utils/size_config.dart';
+import 'package:hr_management_system/Utils/loading_indicator.dart';
+import 'package:hr_management_system/data_classes/constants.dart';
+import 'package:hr_management_system/hr_modules/add_empoyee/model/add_empoyee_model.dart';
 
-class LoanRecord extends StatefulWidget {
-  const LoanRecord({Key? key}) : super(key: key);
-
-  @override
-  _LoanRecordState createState() => _LoanRecordState();
-}
-
-class _LoanRecordState extends State<LoanRecord> {
-  List names = [
-    "Ali",
-    "Asad",
-    "Usman",
-    "Shahzad",
-    "Ali",
-    "Usman",
-    "Ali",
-    "Shahzad",
-    "Ali",
-    "Asad",
-  ];
-  List leaves = [
-    "10,000",
-    "20,000",
-    "5,000",
-    "5,000",
-    "20,000",
-    "10,000",
-    "90,000",
-    "5,000",
-    "10,000",
-    "10,000",
-    "50,000",
-  ];
-  List dates = [
-    "13/07/2022",
-    "18/07/2022",
-    "Total",
-    "Remaining",
-  ];
-  List record = [
-    "10,000",
-    "10,000",
-    "20,000",
-    "5,000",
-  ];
-
+class LoanRecord extends StatelessWidget {
+  LoanRecord({Key? key}) : super(key: key);
+  final _controller = Get.put(LoanViewModel());
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Get.back();
-          },
-          icon: Icon(Icons.arrow_back_ios_sharp),
+    _controller.loadUserId();
+    return Obx(
+      () => Scaffold(
+        backgroundColor: AppColors.background,
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              Get.back();
+            },
+            icon: Icon(Icons.arrow_back_ios_sharp),
+          ),
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.transparent,
+          // bottomOpacity: 0,
+          elevation: 0,
+          flexibleSpace: const CustomAppbar(
+            text: "Loan Record",
+          ),
         ),
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
-        // bottomOpacity: 0,
-        elevation: 0,
-        flexibleSpace: const CustomAppbar(
-          text: "Loan Record",
-        ),
-      ),
-      body: ListView.builder(
-        physics: const BouncingScrollPhysics(),
-        itemCount: names.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            child: InkWell(
-              onTap: () {
-                Navigator.push(context, CustomTransition(LoanDetails()));
-              },
-              splashColor: Colors.green,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                // width: SizeConfig.widthMultiplier*50,
-                height: 50,
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [
-                      Colors.white70,
-                      Colors.white70,
-                    ],
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color.fromRGBO(143, 148, 251, .2),
-                      blurRadius: 20.0,
-                      offset: Offset(0, 10),
-                    ),
-                  ],
-                ),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        names[index],
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      Text(
-                        leaves[index],
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ]),
-              ),
-            ),
-          );
-        },
-        // ListTile(
+        body: StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection(AppConstants.loanMasterCollectionName)
+              .where("hr_id", isEqualTo: _controller.userId.value)
+              .snapshots(),
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasError) {
+              return Center(child: Text(snapshot.error.toString()));
+            }
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: LoadingIndicator().loadingWithLabel());
+            }
+            final res = snapshot.data!.docs;
 
-        // )),
+            return ListView.builder(
+              itemCount: res.length,
+              itemBuilder: (BuildContext context, int index) {
+                LoanMasterModel loanMasterData = LoanMasterModel.fromJson(
+                    res[res.length - index - 1].data() as Map<String, dynamic>);
+
+                return FutureBuilder<AddEmployeeModel>(
+                  future: _controller.loadUserCloudData(
+                      uid: loanMasterData.empId.toString()),
+                  builder: (BuildContext context, userSnapshot) {
+                    // final empData = AddEmployeeModel.fromJson(
+                    //     userSnapshot.data as Map<String, dynamic>);
+                    try {
+                      return LoanComponents().recordCard(
+                        context,
+                        amount: loanMasterData.totalLoan,
+                        name: userSnapshot.data!.name,
+                        designation: userSnapshot.data!.designation,
+                        createdAt: loanMasterData.createdAt,
+                        onPressed: () {
+                          Get.to(() => LoanDetails(loanMasterData.id));
+                        },
+                      );
+                    } catch (e) {
+                      return Center(
+                          child: LoadingIndicator().loadingWithLabel());
+                    }
+                  },
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }
-}
-
-class CustomTransition extends PageRouteBuilder {
-  final Widget page;
-
-  CustomTransition(this.page)
-      : super(
-          pageBuilder: (
-            BuildContext context,
-            Animation<double> animation,
-            Animation<double> secondaryAnimation,
-          ) =>
-              page,
-          transitionsBuilder: (
-            BuildContext context,
-            Animation<double> animation,
-            Animation<double> secondaryAnimation,
-            Widget child,
-          ) =>
-              FadeTransition(
-            opacity: animation,
-            child: page,
-          ),
-        );
 }

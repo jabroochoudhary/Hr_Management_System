@@ -1,17 +1,32 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hr_management_system/Loan%20Module/model/loan_master_model.dart';
 import 'package:hr_management_system/Utils/pop_up_notification.dart';
 import 'package:hr_management_system/data_classes/constants.dart';
 import 'package:hr_management_system/data_classes/local_data_saver.dart';
 import 'package:hr_management_system/hr_modules/add_empoyee/model/add_empoyee_model.dart';
 import 'package:hr_management_system/notification_module/model/notification_model.dart';
 
+import '../model/loan_details_model.dart';
+
 class LoanViewModel extends GetxController {
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    loadUserId();
+  }
+
   final selectedAmount = 0.obs;
   final isLoading = false.obs;
   final descController = TextEditingController().obs;
   final installmentsController = TextEditingController().obs;
+  final userId = "".obs;
+  loadUserId() async {
+    userId.value =
+        (await AppLocalDataSaver.getString(AppLocalDataSaver.userId))!;
+  }
 
   requestLoan() async {
     final id = DateTime.now().microsecondsSinceEpoch.toString();
@@ -50,11 +65,16 @@ class LoanViewModel extends GetxController {
     }
   }
 
-  Future<AddEmployeeModel> loadUserCloudData() async {
+  Future<AddEmployeeModel> loadUserCloudData({String? uid}) async {
     try {
-      final userId =
-          (await AppLocalDataSaver.getString(AppLocalDataSaver.userId))!;
+      final userId;
+      if (uid == null) {
+        userId = (await AppLocalDataSaver.getString(AppLocalDataSaver.userId))!;
+      } else {
+        userId = uid;
+      }
       // print(userId);
+
       final dt = await FirebaseFirestore.instance
           .collection(AppConstants.employesCollectionName)
           .doc(userId)
@@ -65,5 +85,39 @@ class LoanViewModel extends GetxController {
       // print(e);
       return AddEmployeeModel();
     }
+  }
+
+  final listMasterLoanData = <LoanMasterModel>[].obs;
+  // final listMasterLoanData = <LoanMasterModel>[].obs;
+  RxDouble totalAmount = 0.0.obs;
+  RxDouble rmainingAmount = 0.0.obs;
+  RxDouble paidAmount = 0.0.obs;
+  RxBool isLoadingAmount = true.obs;
+
+  final listLoanDetails = <LoanDetailsModel>[].obs;
+
+  calculateAmount() {
+    print("calculation called");
+    totalAmount.value = 0;
+    rmainingAmount.value = 0;
+    paidAmount.value = 0;
+    for (var element in listLoanDetails) {
+      try {
+        totalAmount.value = totalAmount.value + double.parse(element.amount!);
+        if (element.isPaid == true) {
+          paidAmount.value = paidAmount.value + double.parse(element.amount!);
+        }
+      } catch (e) {
+        print(e.toString());
+      }
+    }
+    isLoadingAmount.value = false;
+  }
+
+  paidInstallment(String id) async {
+    await FirebaseFirestore.instance
+        .collection(AppConstants.loanDetailsCollectionName)
+        .doc(id)
+        .update({"is_paid": true});
   }
 }
