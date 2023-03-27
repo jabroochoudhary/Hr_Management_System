@@ -13,7 +13,8 @@ import 'package:hr_management_system/data_classes/constants.dart';
 import 'package:hr_management_system/hr_modules/add_empoyee/model/add_empoyee_model.dart';
 
 class LoanRecord extends StatelessWidget {
-  LoanRecord({Key? key}) : super(key: key);
+  bool isHr;
+  LoanRecord({this.isHr = true, Key? key}) : super(key: key);
   final _controller = Get.put(LoanViewModel());
   @override
   Widget build(BuildContext context) {
@@ -37,10 +38,15 @@ class LoanRecord extends StatelessWidget {
           ),
         ),
         body: StreamBuilder(
-          stream: FirebaseFirestore.instance
-              .collection(AppConstants.loanMasterCollectionName)
-              .where("hr_id", isEqualTo: _controller.userId.value)
-              .snapshots(),
+          stream: !isHr
+              ? FirebaseFirestore.instance
+                  .collection(AppConstants.loanMasterCollectionName)
+                  .where("emp_id", isEqualTo: _controller.userId.value)
+                  .snapshots()
+              : FirebaseFirestore.instance
+                  .collection(AppConstants.loanMasterCollectionName)
+                  .where("hr_id", isEqualTo: _controller.userId.value)
+                  .snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasError) {
@@ -71,7 +77,10 @@ class LoanRecord extends StatelessWidget {
                         designation: userSnapshot.data!.designation,
                         createdAt: loanMasterData.createdAt,
                         onPressed: () {
-                          Get.to(() => LoanDetails(loanMasterData.id));
+                          Get.to(() => LoanDetails(
+                                loanMasterData.id,
+                                ishr: isHr,
+                              ));
                         },
                       );
                     } catch (e) {

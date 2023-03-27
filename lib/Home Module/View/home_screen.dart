@@ -54,7 +54,7 @@ class HomeScreen extends StatelessWidget {
 ///////////////////////////////////////
   List empCaption = [
     "Attendence",
-    "Get Loan",
+    "Loan",
     "Reports",
     "Logout",
   ];

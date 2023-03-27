@@ -26,6 +26,7 @@ class LoanViewModel extends GetxController {
   loadUserId() async {
     userId.value =
         (await AppLocalDataSaver.getString(AppLocalDataSaver.userId))!;
+    print(userId.value);
   }
 
   requestLoan() async {
@@ -115,9 +116,25 @@ class LoanViewModel extends GetxController {
   }
 
   paidInstallment(String id) async {
+    final dt = DateTime.now().microsecondsSinceEpoch.toString();
     await FirebaseFirestore.instance
         .collection(AppConstants.loanDetailsCollectionName)
         .doc(id)
-        .update({"is_paid": true});
+        .update({
+      "is_paid": true,
+      "updated_at": dt,
+    });
+  }
+
+  unPaidInstallment(String id) async {
+    final dt = DateTime.now().microsecondsSinceEpoch.toString();
+
+    await FirebaseFirestore.instance
+        .collection(AppConstants.loanDetailsCollectionName)
+        .doc(id)
+        .update({
+      "is_paid": false,
+      "updated_at": dt,
+    });
   }
 }

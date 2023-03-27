@@ -423,13 +423,14 @@ class LoanComponents {
       height: SizeConfig.heightMultiplier * 12,
       padding: const EdgeInsets.symmetric(horizontal: 10),
       decoration: const BoxDecoration(
+        // color: Colors.red,
         gradient: LinearGradient(
           colors: [
             Colors.white70,
             Colors.white70,
           ],
         ),
-        borderRadius: BorderRadius.all(Radius.circular(8)),
+        borderRadius: BorderRadius.all(Radius.circular(6)),
         boxShadow: [
           BoxShadow(
             color: Color.fromRGBO(143, 148, 251, .2),

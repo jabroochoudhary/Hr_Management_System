@@ -15,8 +15,9 @@ import '../../Utils/loading_indicator.dart';
 import '../../data_classes/constants.dart';
 
 class LoanDetails extends StatelessWidget {
+  bool ishr;
   final masterId;
-  LoanDetails(this.masterId, {super.key});
+  LoanDetails(this.masterId, {this.ishr = true, super.key});
 
   final _contrller = Get.find<LoanViewModel>();
 
@@ -85,24 +86,32 @@ class LoanDetails extends StatelessWidget {
                       isPaid: loanDeatilsData.isPaid,
                       amount: loanDeatilsData.amount,
                       title: loanDeatilsData.title,
-                      updatedAt: loanDeatilsData.id,
-                      onPressed: () {
-                        ToastMessage().defaultYesNoDialouge(
-                          "Is ${loanDeatilsData.title} is paid?",
-                          yesText: "Yes",
-                          noText: "No",
-                          onCancelPressed: () {
-                            Get.back();
-                          },
-                          onConfirmPressed: () async {
-                            await _contrller
-                                .paidInstallment(loanDeatilsData.id!);
-                            if (Get.isDialogOpen == true) {
-                              Get.back();
-                            }
-                          },
-                        );
-                      },
+                      updatedAt: loanDeatilsData.updatedAt == ""
+                          ? DateTime.now().microsecondsSinceEpoch.toString()
+                          : loanDeatilsData.updatedAt,
+                      onPressed: !ishr
+                          ? null
+                          : () {
+                              ToastMessage().defaultYesNoDialouge(
+                                "Is ${loanDeatilsData.title} is paid?",
+                                yesText: "Yes",
+                                noText: "No",
+                                onCancelPressed: () async {
+                                  await _contrller
+                                      .unPaidInstallment(loanDeatilsData.id!);
+                                  if (Get.isDialogOpen == true) {
+                                    Get.back();
+                                  }
+                                },
+                                onConfirmPressed: () async {
+                                  await _contrller
+                                      .paidInstallment(loanDeatilsData.id!);
+                                  if (Get.isDialogOpen == true) {
+                                    Get.back();
+                                  }
+                                },
+                              );
+                            },
                     );
                   },
                 );

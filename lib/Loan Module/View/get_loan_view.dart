@@ -2,6 +2,7 @@ import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
 import 'package:hr_management_system/Loan%20Module/Components/loan_components.dart';
 import 'package:get/get.dart';
+import 'package:hr_management_system/Loan%20Module/View/loan_record.dart';
 import 'package:hr_management_system/Loan%20Module/view_model/loan_view_model.dart';
 import 'package:hr_management_system/Utils/colors.dart';
 import 'package:hr_management_system/Utils/custom_appbar.dart';
@@ -9,6 +10,7 @@ import 'package:hr_management_system/Utils/size_config.dart';
 
 import '../../Utils/custom_button.dart';
 import '../../Utils/custom_textbox.dart';
+import '../../data_classes/local_data_saver.dart';
 
 class GetLoanView extends StatelessWidget {
   final _controller = Get.put(LoanViewModel());
@@ -111,15 +113,19 @@ class GetLoanView extends StatelessWidget {
                       height: SizeConfig.heightMultiplier * 4,
                     ),
 
-                    // Center(
-                    //   child: CustomButton(
-                    //     callback: () {
-                    //       Navigator.push(context, CustomTransition(LoanRecord()));
-                    //     },
-                    //     title: "Check Loan",
-                    //     width: SizeConfig.widthMultiplier * 70,
-                    //   ),
-                    // ),
+                    Center(
+                      child: CustomButton(
+                        callback: () async {
+                          bool isHr = (await AppLocalDataSaver.getBool(
+                              AppLocalDataSaver.isHRLoginKey))!;
+                          Get.to(() => LoanRecord(
+                                isHr: isHr,
+                              ));
+                        },
+                        title: "Check Loan",
+                        width: SizeConfig.widthMultiplier * 70,
+                      ),
+                    ),
                   ],
                 )
               : Column(
@@ -185,28 +191,4 @@ class GetLoanView extends StatelessWidget {
       ),
     );
   }
-}
-
-class CustomTransition extends PageRouteBuilder {
-  final Widget page;
-
-  CustomTransition(this.page)
-      : super(
-          pageBuilder: (
-            BuildContext context,
-            Animation<double> animation,
-            Animation<double> secondaryAnimation,
-          ) =>
-              page,
-          transitionsBuilder: (
-            BuildContext context,
-            Animation<double> animation,
-            Animation<double> secondaryAnimation,
-            Widget child,
-          ) =>
-              FadeTransition(
-            opacity: animation,
-            child: page,
-          ),
-        );
 }
