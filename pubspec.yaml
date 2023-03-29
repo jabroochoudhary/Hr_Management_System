@@ -53,6 +53,9 @@ dependencies:
   google_sign_in: ^6.0.2
   cloud_firestore: ^4.4.3
   shared_preferences: ^2.0.18
+  line_awesome_flutter: ^2.0.0
+  image_picker: ^0.8.7+1
+  image_cropper: ^3.0.2
 
 
 dev_dependencies:

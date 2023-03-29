@@ -32,7 +32,6 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Obx(
       () => Scaffold(
-        drawer: const MyDrawer(),
         backgroundColor: AppColors.background,
         body: Container(
             decoration: const BoxDecoration(

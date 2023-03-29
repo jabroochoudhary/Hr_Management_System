@@ -149,4 +149,42 @@ class AddEmployeeViewModel extends GetxController {
     }
     return isdone;
   }
+
+  updateEmployeeSideAccount(AddEmployeeModel empData) async {
+    if (nameController.value.text.isNotEmpty &&
+        fnameController.value.text.isNotEmpty &&
+        ageController.value.text.isNotEmpty &&
+        contactController.value.text.isNotEmpty &&
+        cnicController.value.text.isNotEmpty &&
+        educationController.value.text.isNotEmpty &&
+        expertiesController.value.text.isNotEmpty &&
+        designationController.value.text.isNotEmpty &&
+        spouseController.value.text.isNotEmpty &&
+        childrensController.value.text.isNotEmpty &&
+        addressController.value.text.isNotEmpty &&
+        salaryController.value.text.isNotEmpty &&
+        joiningDateController.value.text.isNotEmpty &&
+        emailController.value.text.isNotEmpty &&
+        passwordController.value.text.isNotEmpty) {
+      isLoading.value = true;
+      empData.address = addressController.value.text;
+      empData.name = nameController.value.text;
+      empData.fatherName = fnameController.value.text;
+      empData.spouse = int.parse(spouseController.value.text);
+      empData.childrens = int.parse(childrensController.value.text);
+      empData.age = int.parse(ageController.value.text);
+      empData.imageURL = empData.imageURL;
+
+      await FirebaseFirestore.instance
+          .collection(AppConstants.employesCollectionName)
+          .doc(empData.id)
+          .update(empData.toJson());
+      Get.back();
+      PopUpNotification().show("Your account is updated.", "Sucess");
+    } else {
+      isLoading.value = false;
+      PopUpNotification()
+          .show("Please fill all attributes with proper data", "Information");
+    }
+  }
 }

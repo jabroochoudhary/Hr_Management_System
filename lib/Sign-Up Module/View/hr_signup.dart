@@ -15,19 +15,38 @@ import 'package:hr_management_system/Utils/textbox_with_label.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../Login Module/Components/google_button.dart';
+import '../model/sign_up_mode.dart';
 
-class HrSignup extends StatefulWidget {
-  HrSignup({Key? key}) : super(key: key);
+class HrSignup extends StatelessWidget {
+  SignUpModel? hrData;
+  bool isHR;
+  HrSignup({this.isHR = false, this.hrData, Key? key}) : super(key: key);
 
-  @override
-  State<HrSignup> createState() => _HrSignupState();
-}
+  final _controllerSignUp = Get.put(SignUpViewModel());
 
-final _controllerSignUp = Get.put(SignUpViewModel());
-
-class _HrSignupState extends State<HrSignup> {
   @override
   Widget build(BuildContext context) {
+    if (hrData != null) {
+      _controllerSignUp.isSignUpGoogleDone.value = isHR;
+      _controllerSignUp.userNameController.value.text =
+          hrData!.userFullName.toString();
+      _controllerSignUp.userContactNoController.value.text =
+          hrData!.personalContactNo.toString();
+      _controllerSignUp.userageController.value.text = hrData!.age.toString();
+      _controllerSignUp.useremailController.value.text =
+          hrData!.email.toString();
+      _controllerSignUp.userpasswordController.value.text =
+          hrData!.password.toString();
+      _controllerSignUp.companyAddressController.value.text =
+          hrData!.companyAddress.toString();
+      _controllerSignUp.companyNameController.value.text =
+          hrData!.companyName.toString();
+      _controllerSignUp.companyDomainController.value.text =
+          hrData!.companyDomain.toString();
+      _controllerSignUp.officePhoneNoController.value.text =
+          hrData!.officePhoneNo.toString();
+    }
+
     return Obx(
       () => Scaffold(
         backgroundColor: AppColors.background,
@@ -75,6 +94,7 @@ class _HrSignupState extends State<HrSignup> {
                         hint: "Enter company name",
                         textEditingController:
                             _controllerSignUp.companyNameController.value,
+                        isReadOnly: isHR,
                       ),
                       TextFieldWithLabel().textFieldLabel(
                         label: "Company Address",
@@ -87,6 +107,7 @@ class _HrSignupState extends State<HrSignup> {
                         hint: "Enter company domain",
                         textEditingController:
                             _controllerSignUp.companyDomainController.value,
+                        isReadOnly: isHR,
                       ),
                       TextFieldWithLabel().textFieldLabel(
                         label: "Office Phone No",
@@ -113,6 +134,7 @@ class _HrSignupState extends State<HrSignup> {
                         textEditingController:
                             _controllerSignUp.userpasswordController.value,
                         isPassword: true,
+                        isReadOnly: isHR,
                       ),
                       SizedBox(
                         height: SizeConfig.heightMultiplier * 2,
@@ -122,15 +144,20 @@ class _HrSignupState extends State<HrSignup> {
                         child: _controllerSignUp.isLoading.value
                             ? LoadingIndicator().loading()
                             : CustomButton(
-                                callback: () async {
-                                  if (await _controllerSignUp
-                                      .saveSignUpUserData()) {
-                                    Get.back();
-                                  } else {
-                                    print("Some network Issue");
-                                  }
-                                },
-                                title: "Sign Up",
+                                callback: isHR
+                                    ? () async {
+                                        await _controllerSignUp
+                                            .updateHRAccount(hrData!);
+                                      }
+                                    : () async {
+                                        if (await _controllerSignUp
+                                            .saveSignUpUserData()) {
+                                          Get.back();
+                                        } else {
+                                          print("Some network Issue");
+                                        }
+                                      },
+                                title: isHR ? "Update Account" : "Sign Up",
                                 width: SizeConfig.widthMultiplier * 100,
                               ),
                       ),

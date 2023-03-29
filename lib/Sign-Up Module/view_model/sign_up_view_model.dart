@@ -185,4 +185,38 @@ class SignUpViewModel extends GetxController {
     } catch (e) {}
     return false;
   }
+
+  updateHRAccount(SignUpModel hrData) async {
+    if (userNameController.value.text.isNotEmpty &&
+        useremailController.value.text.isNotEmpty &&
+        userpasswordController.value.text.isNotEmpty &&
+        userageController.value.text.isNotEmpty &&
+        companyAddressController.value.text.isNotEmpty &&
+        companyDomainController.value.text.isNotEmpty &&
+        companyNameController.value.text.isNotEmpty &&
+        officePhoneNoController.value.text.isNotEmpty &&
+        userContactNoController.value.text.isNotEmpty) {
+      isLoading.value = true;
+      final hrid =
+          (await AppLocalDataSaver.getString(AppLocalDataSaver.userId))!;
+
+      hrData.userFullName = userNameController.value.text;
+      hrData.age = int.parse(userageController.value.text);
+      hrData.companyAddress = companyAddressController.value.text;
+      hrData.officePhoneNo = officePhoneNoController.value.text;
+      hrData.personalContactNo = userContactNoController.value.text;
+
+      await FirebaseFirestore.instance
+          .collection(AppConstants.hrCollectionName)
+          .doc(hrid)
+          .update(hrData.toJson());
+
+      isLoading.value = false;
+      Get.back();
+      PopUpNotification().show("Profile is updated sucess", "Profile");
+    } else {
+      isLoading.value = false;
+      PopUpNotification().show("Please enter proper fields data.", "Alert");
+    }
+  }
 }
