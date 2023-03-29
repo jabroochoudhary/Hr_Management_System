@@ -166,7 +166,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       await Get.to(
                         () => SignupScreen(
                           empData: _controller.empData,
-                          isHR: _controller.isHR.value,
                         ),
                       );
                       await _controller.loadUserCloudData();

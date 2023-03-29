@@ -13,45 +13,55 @@ import 'package:hr_management_system/hr_modules/add_empoyee/view_model/add_emplo
 
 class SignupScreen extends StatelessWidget {
   AddEmployeeModel? empData;
-  bool? isHR;
-  SignupScreen({this.empData, this.isHR, Key? key}) : super(key: key);
+
+  SignupScreen({
+    this.empData,
+    Key? key,
+  }) : super(key: key);
   final _controllerAddEmployee = Get.put(AddEmployeeViewModel());
 
   @override
   Widget build(BuildContext context) {
-    _controllerAddEmployee.isLoading.value = false;
-    if (empData!.id != null) {
-      _controllerAddEmployee.fnameController.value.text =
-          empData!.fatherName.toString();
-      _controllerAddEmployee.nameController.value.text =
-          empData!.name.toString();
-      _controllerAddEmployee.emailController.value.text =
-          empData!.email.toString();
-      _controllerAddEmployee.passwordController.value.text =
-          empData!.password.toString();
-      _controllerAddEmployee.cnicController.value.text =
-          empData!.cnic.toString();
-      _controllerAddEmployee.ageController.value.text = empData!.age.toString();
-      _controllerAddEmployee.addressController.value.text =
-          empData!.address.toString();
-      _controllerAddEmployee.contactController.value.text =
-          empData!.contact.toString();
-      _controllerAddEmployee.educationController.value.text =
-          empData!.education.toString();
-      _controllerAddEmployee.fnameController.value.text =
-          empData!.fatherName.toString();
-      _controllerAddEmployee.expertiesController.value.text =
-          empData!.expertise.toString();
-      _controllerAddEmployee.spouseController.value.text =
-          empData!.spouse.toString();
-      _controllerAddEmployee.salaryController.value.text =
-          empData!.salary.toString();
-      _controllerAddEmployee.designationController.value.text =
-          empData!.designation.toString();
-      _controllerAddEmployee.joiningDateController.value.text =
-          empData!.joiningDate.toString();
-      _controllerAddEmployee.childrensController.value.text =
-          empData!.childrens.toString();
+    final isHR = empData == null ? true : false;
+    try {
+      _controllerAddEmployee.isLoading.value = false;
+
+      if (empData != null) {
+        _controllerAddEmployee.fnameController.value.text =
+            empData!.fatherName.toString();
+        _controllerAddEmployee.nameController.value.text =
+            empData!.name.toString();
+        _controllerAddEmployee.emailController.value.text =
+            empData!.email.toString();
+        _controllerAddEmployee.passwordController.value.text =
+            empData!.password.toString();
+        _controllerAddEmployee.cnicController.value.text =
+            empData!.cnic.toString();
+        _controllerAddEmployee.ageController.value.text =
+            empData!.age.toString();
+        _controllerAddEmployee.addressController.value.text =
+            empData!.address.toString();
+        _controllerAddEmployee.contactController.value.text =
+            empData!.contact.toString();
+        _controllerAddEmployee.educationController.value.text =
+            empData!.education.toString();
+        _controllerAddEmployee.fnameController.value.text =
+            empData!.fatherName.toString();
+        _controllerAddEmployee.expertiesController.value.text =
+            empData!.expertise.toString();
+        _controllerAddEmployee.spouseController.value.text =
+            empData!.spouse.toString();
+        _controllerAddEmployee.salaryController.value.text =
+            empData!.salary.toString();
+        _controllerAddEmployee.designationController.value.text =
+            empData!.designation.toString();
+        _controllerAddEmployee.joiningDateController.value.text =
+            empData!.joiningDate.toString();
+        _controllerAddEmployee.childrensController.value.text =
+            empData!.childrens.toString();
+      }
+    } catch (e) {
+      print(e.toString());
     }
     return ProgressHUD(
       child: Builder(
@@ -70,7 +80,7 @@ class SignupScreen extends StatelessWidget {
               // bottomOpacity: 0,
               elevation: 0,
               flexibleSpace: CustomAppbar(
-                text: "Add Employee",
+                text: "Employee",
               ),
             ),
             body: SingleChildScrollView(
@@ -112,28 +122,28 @@ class SignupScreen extends StatelessWidget {
                     TextFieldWithLabel().textFieldLabel(
                       label: "CNIC",
                       hint: "36603-00000000-0",
-                      isReadOnly: !isHR!,
+                      isReadOnly: isHR == true ? false : true,
                       textEditingController:
                           _controllerAddEmployee.cnicController.value,
                     ),
                     TextFieldWithLabel().textFieldLabel(
                       label: "Contact",
                       hint: "+923123456789",
-                      isReadOnly: !isHR!,
+                      isReadOnly: !isHR,
                       textEditingController:
                           _controllerAddEmployee.contactController.value,
                     ),
                     TextFieldWithLabel().textFieldLabel(
                       label: "Education",
                       hint: "BS Computer Science",
-                      isReadOnly: !isHR!,
+                      isReadOnly: !isHR,
                       textEditingController:
                           _controllerAddEmployee.educationController.value,
                     ),
                     TextFieldWithLabel().textFieldLabel(
                       label: "Expertise",
                       hint: "Flull stack flutter developer",
-                      isReadOnly: !isHR!,
+                      isReadOnly: !isHR,
                       textEditingController:
                           _controllerAddEmployee.expertiesController.value,
                     ),
@@ -177,14 +187,14 @@ class SignupScreen extends StatelessWidget {
                     TextFieldWithLabel().textFieldLabel(
                       label: "Designation",
                       hint: "Flutter Developer",
-                      isReadOnly: !isHR!,
+                      isReadOnly: !isHR,
                       textEditingController:
                           _controllerAddEmployee.designationController.value,
                     ),
                     TextFieldWithLabel().textFieldLabel(
                       label: "Monthly Salary",
                       hint: "Ammount PkR e.g. 75000",
-                      isReadOnly: !isHR!,
+                      isReadOnly: !isHR,
                       isNumber: true,
                       textEditingController:
                           _controllerAddEmployee.salaryController.value,
@@ -195,7 +205,7 @@ class SignupScreen extends StatelessWidget {
                       textEditingController:
                           _controllerAddEmployee.joiningDateController.value,
                       isReadOnly: true,
-                      onTap: isHR!
+                      onTap: isHR
                           ? () => DatePicker.showDatePicker(
                                 context,
                                 showTitleActions: true,
@@ -224,18 +234,18 @@ class SignupScreen extends StatelessWidget {
                                 currentTime: DateTime.now(),
                                 locale: LocaleType.en,
                               )
-                          : null,
+                          : () {},
                     ),
                     TextFieldWithLabel().textFieldLabel(
                       label: "Employee Email",
-                      isReadOnly: !isHR!,
+                      isReadOnly: !isHR,
                       hint: "husnain.shah@company.com",
                       textEditingController:
                           _controllerAddEmployee.emailController.value,
                     ),
                     TextFieldWithLabel().textFieldLabel(
                       label: "Employee Password",
-                      isReadOnly: !isHR!,
+                      isReadOnly: !isHR,
                       hint: "password atleast 6 charecters long",
                       textEditingController:
                           _controllerAddEmployee.passwordController.value,
@@ -258,7 +268,7 @@ class SignupScreen extends StatelessWidget {
                       child: _controllerAddEmployee.isLoading.value
                           ? Center(child: LoadingIndicator().loading())
                           : CustomButton(
-                              callback: isHR!
+                              callback: isHR
                                   ? () async {
                                       // print("Create");
                                       FocusScope.of(context).unfocus();
@@ -269,12 +279,12 @@ class SignupScreen extends StatelessWidget {
                                           .createEmployeeAccount();
                                       progress?.dismiss();
                                     }
-                                  : () {
+                                  : () async {
                                       // print("update");
-                                      _controllerAddEmployee
+                                      await _controllerAddEmployee
                                           .updateEmployeeSideAccount(empData!);
                                     },
-                              title: !isHR!
+                              title: !isHR
                                   ? "Update Account"
                                   : "Create Employee Account",
                               width: SizeConfig.widthMultiplier * 100,

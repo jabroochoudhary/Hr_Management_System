@@ -101,7 +101,6 @@ class HomeScreen extends StatelessWidget {
                 editPressed: () async {
                   await Get.to(SignupScreen(
                     empData: _profileController.empData,
-                    isHR: _profileController.isHR.value,
                   ));
                   _profileController.loadUserCloudData();
                 },
