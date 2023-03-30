@@ -81,13 +81,24 @@ class _HRProfileViewState extends State<HRProfileView> {
     return Obx(
       () => Scaffold(
         backgroundColor: AppColors.background,
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+            onPressed: () => Get.back(),
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            ),
+          ),
+        ),
         body: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
           child: Container(
             padding: const EdgeInsets.all(10),
             child: Column(
               children: [
-                SizedBox(height: 70),
                 Stack(
                   children: [
                     SizedBox(

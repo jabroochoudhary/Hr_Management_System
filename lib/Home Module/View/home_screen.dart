@@ -12,6 +12,7 @@ import 'package:hr_management_system/hr_modules/add_empoyee/view/add_employee.da
 import 'package:hr_management_system/Utils/colors.dart';
 import 'package:hr_management_system/Utils/custom_appbar.dart';
 import 'package:hr_management_system/Utils/size_config.dart';
+import 'package:hr_management_system/hr_modules/employees_list/views/employees_list_view.dart';
 import 'package:hr_management_system/hr_modules/hr_profile/views/hr_profile_view.dart';
 import 'package:hr_management_system/notification_module/views/notification_view.dart';
 import 'package:hr_management_system/profile/view_model/profile_view_model.dart';
@@ -93,7 +94,9 @@ class HomeScreen extends StatelessWidget {
                   Get.to(
                       () => HRProfileView(hrData: _profileController.hrData!));
                   // _profileController.loadHRCloudData();
-                })
+                },
+                employeesPressed: () => Get.to(() => EmployeesListView()),
+              )
             : MyEmpDrawer(
                 email: _profileController.email.value,
                 imgUrl: _profileController.imageUrl.value,
