@@ -16,6 +16,8 @@ import 'package:hr_management_system/hr_modules/employees_list/views/employees_l
 import 'package:hr_management_system/hr_modules/hr_profile/views/hr_profile_view.dart';
 import 'package:hr_management_system/notification_module/views/notification_view.dart';
 import 'package:hr_management_system/profile/view_model/profile_view_model.dart';
+import 'package:hr_management_system/salary_module/views/emp_side_salary_view.dart';
+import 'package:hr_management_system/salary_module/views/salary_view.dart';
 import 'package:lottie/lottie.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -96,6 +98,7 @@ class HomeScreen extends StatelessWidget {
                   // _profileController.loadHRCloudData();
                 },
                 employeesPressed: () => Get.to(() => EmployeesListView()),
+                salaryPressed: () => Get.to(() => SalaryView()),
               )
             : MyEmpDrawer(
                 email: _profileController.email.value,
@@ -107,6 +110,8 @@ class HomeScreen extends StatelessWidget {
                   ));
                   _profileController.loadUserCloudData();
                 },
+                salaryPressed: () => Get.to(() => EmpSideSalaryView(
+                    empDocId: _profileController.empData!.id.toString())),
               ),
         appBar: AppBar(
           leading: IconButton(

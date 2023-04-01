@@ -210,7 +210,15 @@ class MyEmpDrawer extends StatelessWidget {
   String? email;
   String? imgUrl;
   GestureTapCallback? editPressed;
-  MyEmpDrawer({this.editPressed, this.email, this.imgUrl, this.name, Key? key})
+  GestureTapCallback? salaryPressed;
+
+  MyEmpDrawer(
+      {this.salaryPressed,
+      this.editPressed,
+      this.email,
+      this.imgUrl,
+      this.name,
+      Key? key})
       : super(key: key);
 
   @override
@@ -320,6 +328,7 @@ class MyEmpDrawer extends StatelessWidget {
                       tile(
                         icon: Icons.euro_symbol_sharp,
                         title: "Salary",
+                        onPressed: salaryPressed,
                       ),
                       const Divider(
                         color: Colors.grey,

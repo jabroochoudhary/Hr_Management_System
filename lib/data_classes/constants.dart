@@ -9,6 +9,8 @@ class AppConstants {
   static const datesCollectionInHrAttandence = "Attandence_Dates";
   static const attendenceInDatesCollectionInHrAttandence =
       "Attandence_Employee";
+  static const salaryMasterCollectionName = "Master_Salary";
+  static const salarydeatailCollectionName = "Details_Salary";
 
   // static const
 }
