@@ -7,7 +7,7 @@ import 'package:hr_management_system/Home%20Module/Components/drawer.dart';
 import 'package:hr_management_system/hr_modules/Leave%20Record%20Module/View/leave_record.dart';
 import 'package:hr_management_system/Loan%20Module/View/get_loan_view.dart';
 import 'package:hr_management_system/Login%20Module/View/login_screen.dart';
-import 'package:hr_management_system/Report%20Module/View/report_screen.dart';
+import 'package:hr_management_system/Report%20Module/view/report_screen.dart';
 import 'package:hr_management_system/hr_modules/add_empoyee/view/add_employee.dart';
 import 'package:hr_management_system/Utils/colors.dart';
 import 'package:hr_management_system/Utils/custom_appbar.dart';
@@ -167,6 +167,8 @@ class HomeScreen extends StatelessWidget {
                       onTap: () {
                         if (isHr && index == 5) {
                           Get.offAll(() => LoginScreen());
+                        } else if (index == 4) {
+                          Get.to(() => ReportScreen());
                         } else if (!isHr && index == 3) {
                           Get.offAll(() => LoginScreen());
                         } else {
