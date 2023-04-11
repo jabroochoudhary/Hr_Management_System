@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hr_management_system/Loan%20Module/View/loan_record.dart';
+import 'package:hr_management_system/Report%20Module/view/emp_report_view.dart';
 import 'package:hr_management_system/emp_modules/emp_attendence/view/emp_attendence_view.dart';
 import 'package:hr_management_system/hr_modules/Attendence%20Module/View/dates_list.dart';
 import 'package:hr_management_system/Home%20Module/Components/drawer.dart';
@@ -73,7 +74,7 @@ class HomeScreen extends StatelessWidget {
   List<dynamic> empPages = [
     EMPAttendenceView(),
     GetLoanView(),
-    ReportScreen(),
+    EmployeeReportView(),
     LoginScreen(),
   ];
 

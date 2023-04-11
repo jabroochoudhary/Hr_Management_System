@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:hr_management_system/Report%20Module/components/report_components.dart';
-import 'package:hr_management_system/Report%20Module/view_model/report_view_model.dart';
-import 'package:hr_management_system/Utils/colors.dart';
-import 'package:hr_management_system/Utils/custom_appbar.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import '../../Loan Module/View/get_loan_view.dart';
+import '../../Utils/colors.dart';
+import '../../Utils/custom_appbar.dart';
+import '../../emp_modules/emp_attendence/view/emp_attendence_view.dart';
+import '../components/report_components.dart';
+import '../view_model/report_view_model.dart';
 
-import '../../Loan Module/View/loan_record.dart';
-import '../../hr_modules/Attendence Module/View/dates_list.dart';
-import '../../hr_modules/employees_list/views/employees_list_view.dart';
-
-class ReportScreen extends StatelessWidget {
-  ReportScreen({Key? key}) : super(key: key);
+class EmployeeReportView extends StatelessWidget {
+  EmployeeReportView({super.key});
   final _controller = Get.put(ReportViewModel());
 
   @override
   Widget build(BuildContext context) {
     _controller.loadReportData();
+
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -42,32 +41,6 @@ class ReportScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      "Employees",
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.blue,
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () => Get.to(() => EmployeesListView()),
-                      child: const Text(
-                        "View all",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: AppColors.coloredtext,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                ReportComponents().keyLabelRow("Total Employees",
-                    _controller.totalNoOfEmployees.value.toString()),
-                Divider(),
-                const SizedBox(height: 10),
                 const Text(
                   "Salary",
                   style: TextStyle(
@@ -75,14 +48,10 @@ class ReportScreen extends StatelessWidget {
                     color: Colors.blue,
                   ),
                 ),
-                ReportComponents().keyLabelRow("Monthly Salary total",
+                ReportComponents().keyLabelRow("Monthly Salary",
                     "Rs. ${_controller.salaryTotalMonth.value}"),
-                ReportComponents().keyLabelRow("Yearly Salary total",
+                ReportComponents().keyLabelRow("Yearly Salary",
                     "Rs. ${_controller.salaryTotalYear.value}"),
-                ReportComponents().keyLabelRow("Min Salary of Emp",
-                    "Rs. ${_controller.minSalaryemp.value}"),
-                ReportComponents().keyLabelRow("Max Salary of Emp",
-                    "Rs. ${_controller.maxSalaryemp.value}"),
                 Divider(),
                 const SizedBox(height: 10),
                 Row(
@@ -96,7 +65,7 @@ class ReportScreen extends StatelessWidget {
                       ),
                     ),
                     InkWell(
-                      onTap: () => Get.to(() => DatesListView()),
+                      onTap: () => Get.to(() => EMPAttendenceView()),
                       child: const Text(
                         "View all",
                         style: TextStyle(
@@ -189,7 +158,7 @@ class ReportScreen extends StatelessWidget {
                       ),
                     ),
                     InkWell(
-                      onTap: () => Get.to(() => LoanRecord()),
+                      onTap: () => Get.to(() => GetLoanView()),
                       child: const Text(
                         "View all",
                         style: TextStyle(
@@ -205,7 +174,7 @@ class ReportScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      "Loan received from Emp",
+                      "Loan Paid",
                       style: TextStyle(fontSize: 16.0),
                     ),
                     CircularPercentIndicator(

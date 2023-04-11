@@ -30,7 +30,9 @@ class ReportViewModel extends GetxController {
 
     if (isHr.value) {
       loadHrReport();
-    } else {}
+    } else {
+      loadEmployeeReport();
+    }
   }
 
   loadHrReport() async {
@@ -155,5 +157,112 @@ class ReportViewModel extends GetxController {
     } catch (e) {
       print(e.toString());
     }
+  }
+
+  loadEmployeeReport() async {
+    AddEmployeeModel empData;
+    final dt = await FirebaseFirestore.instance
+        .collection(AppConstants.employesCollectionName)
+        .doc(userID.value)
+        .get();
+    empData = AddEmployeeModel.fromJson(dt.data() as Map<String, dynamic>);
+    salaryTotalMonth.value = empData.salary!;
+    salaryTotalYear.value = empData.salary! * 12;
+
+    loadEmpAttandece();
+    loadEmpLoan();
+  }
+
+  loadEmpLoan() async {
+    try {
+      final loanMasterList = <LoanMasterModel>[];
+      final loanDetailsList = <LoanDetailsModel>[];
+      await FirebaseFirestore.instance
+          .collection(AppConstants.loanMasterCollectionName)
+          .where("emp_id", isEqualTo: userID.value)
+          .get()
+          .then((data) {
+        for (var element in data.docs) {
+          loanMasterList.add(LoanMasterModel.fromJson(element.data()));
+        }
+      });
+      for (var dt in loanMasterList) {
+        await FirebaseFirestore.instance
+            .collection(AppConstants.loanDetailsCollectionName)
+            .where("master_loan_id", isEqualTo: dt.id)
+            .get()
+            .then((loans) {
+          for (var loan in loans.docs) {
+            loanDetailsList.add(LoanDetailsModel.fromJson(loan.data()));
+          }
+        });
+      }
+      double totalLoan = 0;
+      for (var master in loanMasterList) {
+        totalLoan += double.parse(master.totalLoan!);
+      }
+      double paidLoan = 0;
+      for (var loan in loanDetailsList) {
+        if (loan.isPaid!) {
+          paidLoan += double.parse(loan.amount!);
+        }
+      }
+
+      double loanp = (paidLoan / totalLoan) * 100;
+
+      // print(double.parse(loanp.toStringAsFixed(2)));
+      loanPercentage.value = double.parse(loanp.toStringAsFixed(2)) / 100;
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  loadEmpAttandece() async {
+    final hrid =
+        (await AppLocalDataSaver.getString(AppLocalDataSaver.empHRidKey))!;
+    final atPath = FirebaseFirestore.instance
+        .collection(AppConstants.hrAttandenceCollection)
+        .doc(hrid)
+        .collection(AppConstants.datesCollectionInHrAttandence);
+    final dates = await atPath.limit(30).get();
+    final datesList = <String>[];
+    for (var date in dates.docs) {
+      datesList.add(date.id.toString());
+    }
+    final attendenceList = <AttandenceModel>[];
+    for (var id in datesList) {
+      final attendence = await atPath
+          .doc(id)
+          .collection(AppConstants.attendenceInDatesCollectionInHrAttandence)
+          .where("emp_id", isEqualTo: userID.value)
+          .get();
+      for (var ate in attendence.docs) {
+        attendenceList.add(AttandenceModel.fromJson(ate.data()));
+      }
+    }
+    int empStatusPresentTotal = 0;
+    int empStatusAbsenttTotal = 0;
+    int empStatusLeaveTotal = 0;
+    for (var element in attendenceList) {
+      if (element.status! == 1) {
+        empStatusPresentTotal += 1;
+      }
+      if (element.status! == 2) {
+        empStatusLeaveTotal += 1;
+      }
+      if (element.status! == 0) {
+        empStatusAbsenttTotal += 1;
+      }
+    }
+    double presencePercentage =
+        (empStatusPresentTotal / attendenceList.length) * 100;
+    double absentPercentage =
+        (empStatusAbsenttTotal / attendenceList.length) * 100;
+    double leavePersentages =
+        (empStatusLeaveTotal / attendenceList.length) * 100;
+
+    leavePersentage.value = leavePersentages.roundToDouble() / 100;
+    absentPersentage.value = absentPercentage.roundToDouble() / 100;
+    attandencePercentage.value = presencePercentage.roundToDouble() / 100;
   }
 }
