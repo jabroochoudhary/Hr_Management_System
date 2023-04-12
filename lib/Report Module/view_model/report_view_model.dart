@@ -110,9 +110,12 @@ class ReportViewModel extends GetxController {
     double leavePersentages =
         (empStatusLeaveTotal / attendenceList.length) * 100;
 
-    leavePersentage.value = leavePersentages.roundToDouble() / 100;
-    absentPersentage.value = absentPercentage.roundToDouble() / 100;
-    attandencePercentage.value = presencePercentage.roundToDouble() / 100;
+    leavePersentage.value =
+        double.parse(leavePersentages.toStringAsFixed(2)) / 100;
+    absentPersentage.value =
+        double.parse(absentPercentage.toStringAsFixed(2)) / 100;
+    attandencePercentage.value =
+        double.parse(presencePercentage.toStringAsFixed(2)) / 100;
   }
 
   loadLoanReport() async {
@@ -261,8 +264,11 @@ class ReportViewModel extends GetxController {
     double leavePersentages =
         (empStatusLeaveTotal / attendenceList.length) * 100;
 
-    leavePersentage.value = leavePersentages.roundToDouble() / 100;
-    absentPersentage.value = absentPercentage.roundToDouble() / 100;
-    attandencePercentage.value = presencePercentage.roundToDouble() / 100;
+    leavePersentage.value =
+        double.parse(leavePersentages.toStringAsFixed(2)) / 100;
+    absentPersentage.value =
+        double.parse(absentPercentage.toStringAsFixed(2)) / 100;
+    attandencePercentage.value =
+        double.parse(presencePercentage.toStringAsFixed(2)) / 100;
   }
 }
