@@ -121,9 +121,9 @@ class ReportScreen extends StatelessWidget {
                       animation: true,
                       percent: _controller.attandencePercentage.value,
                       center: Text(
-                        "${_controller.attandencePercentage.value * 100}%",
+                        "${(_controller.attandencePercentage.value * 100).toStringAsFixed(2)}%",
                         style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18.0),
+                            fontWeight: FontWeight.bold, fontSize: 14.0),
                       ),
                       circularStrokeCap: CircularStrokeCap.round,
                       progressColor: Colors.green,
@@ -144,9 +144,9 @@ class ReportScreen extends StatelessWidget {
                       animation: true,
                       percent: _controller.leavePersentage.value,
                       center: Text(
-                        "${_controller.leavePersentage.value * 100}%",
+                        "${(_controller.leavePersentage.value * 100).toStringAsFixed(2)}%",
                         style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18.0),
+                            fontWeight: FontWeight.bold, fontSize: 14.0),
                       ),
                       circularStrokeCap: CircularStrokeCap.round,
                       progressColor: Colors.yellow,
@@ -167,9 +167,9 @@ class ReportScreen extends StatelessWidget {
                       animation: true,
                       percent: _controller.absentPersentage.value,
                       center: Text(
-                        "${_controller.absentPersentage.value * 100}%",
+                        "${(_controller.absentPersentage.value * 100).toStringAsFixed(2)}%",
                         style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18.0),
+                            fontWeight: FontWeight.bold, fontSize: 14.0),
                       ),
                       circularStrokeCap: CircularStrokeCap.round,
                       progressColor: Colors.red,
@@ -205,7 +205,7 @@ class ReportScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      "Loan received from Emp",
+                      "Loan recovered from Emp",
                       style: TextStyle(fontSize: 16.0),
                     ),
                     CircularPercentIndicator(
@@ -214,9 +214,9 @@ class ReportScreen extends StatelessWidget {
                       animation: true,
                       percent: _controller.loanPercentage.value,
                       center: Text(
-                        "${_controller.loanPercentage.value * 100}%",
+                        "${(_controller.loanPercentage.value * 100).toStringAsFixed(2)}%",
                         style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18.0),
+                            fontWeight: FontWeight.bold, fontSize: 14.0),
                       ),
                       circularStrokeCap: CircularStrokeCap.round,
                       progressColor: Color.fromARGB(255, 138, 73, 50),

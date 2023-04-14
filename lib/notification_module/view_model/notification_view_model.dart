@@ -30,10 +30,12 @@ class NotificationViewModel extends GetxController {
   }
 
   markedAsRead(String id) async {
-    await FirebaseFirestore.instance
-        .collection(AppConstants.notificationCollectionName)
-        .doc(id)
-        .update({"isActive": false});
+    try {
+      await FirebaseFirestore.instance
+          .collection(AppConstants.notificationCollectionName)
+          .doc(id)
+          .update({"isActive": false});
+    } catch (e) {}
   }
 
   markedAsUnRead(String id) async {
@@ -73,6 +75,10 @@ class NotificationViewModel extends GetxController {
           .doc(id)
           .set(notify.toJson());
       Get.back();
+      FirebaseFirestore.instance
+          .collection(AppConstants.notificationCollectionName)
+          .doc(data.id)
+          .delete();
     } else {
       PopUpNotification()
           .show("Please enter proper reason of rejection.", "Alert");
@@ -89,6 +95,12 @@ class NotificationViewModel extends GetxController {
     RegExpMatch? match = regex.firstMatch(message!);
     String? amount = match?.group(1);
     String? installments = match?.group(2);
+    if (int.parse(installments!) > 10) {
+      PopUpNotification()
+          .show("Loan installments not be more then 10.", "Alert");
+      isLoading.value = false;
+      return;
+    }
 
     final masterId = DateTime.now().microsecondsSinceEpoch.toString();
 
@@ -105,7 +117,7 @@ class NotificationViewModel extends GetxController {
         .doc(masterId)
         .set(loanMasterData.toJson());
 
-    final oneInstallmentAMount = int.parse(amount!) / int.parse(installments!);
+    final oneInstallmentAMount = int.parse(amount!) / int.parse(installments);
 
     for (int i = 0; i < int.parse(installments); i++) {
       final dtId = DateTime.now().microsecondsSinceEpoch.toString();
@@ -150,5 +162,9 @@ class NotificationViewModel extends GetxController {
     PopUpNotification().show(
         "Loan record is sucessfully set. Check Loan details in Loan Record.",
         "Sucess");
+    FirebaseFirestore.instance
+        .collection(AppConstants.notificationCollectionName)
+        .doc(data.id)
+        .delete();
   }
 }

@@ -137,4 +137,27 @@ class LoanViewModel extends GetxController {
       "updated_at": dt,
     });
   }
+
+  deleteEmployeeLoanRecord(String masterId) async {
+    var loanDetailsDocs = <String>[];
+    await FirebaseFirestore.instance
+        .collection(AppConstants.loanMasterCollectionName)
+        .doc(masterId)
+        .delete();
+    await FirebaseFirestore.instance
+        .collection(AppConstants.loanDetailsCollectionName)
+        .where("master_loan_id", isEqualTo: masterId)
+        .get()
+        .then((value) {
+      for (var element in value.docs) {
+        loanDetailsDocs.add(element.id);
+      }
+    });
+    for (var element in loanDetailsDocs) {
+      await FirebaseFirestore.instance
+          .collection(AppConstants.loanDetailsCollectionName)
+          .doc(element)
+          .delete();
+    }
+  }
 }

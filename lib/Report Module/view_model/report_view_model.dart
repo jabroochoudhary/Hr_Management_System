@@ -103,19 +103,16 @@ class ReportViewModel extends GetxController {
         empStatusAbsenttTotal += 1;
       }
     }
-    double presencePercentage =
-        (empStatusPresentTotal / attendenceList.length) * 100;
-    double absentPercentage =
-        (empStatusAbsenttTotal / attendenceList.length) * 100;
-    double leavePersentages =
-        (empStatusLeaveTotal / attendenceList.length) * 100;
+    double presencePercentage = (empStatusPresentTotal / attendenceList.length);
+    double absentPercentage = (empStatusAbsenttTotal / attendenceList.length);
+    double leavePersentages = (empStatusLeaveTotal / attendenceList.length);
+    print(absentPercentage);
 
-    leavePersentage.value =
-        double.parse(leavePersentages.toStringAsFixed(2)) / 100;
-    absentPersentage.value =
-        double.parse(absentPercentage.toStringAsFixed(2)) / 100;
+    leavePersentage.value = double.parse(leavePersentages.toStringAsFixed(2));
+    absentPersentage.value = double.parse(absentPercentage.toStringAsFixed(2));
     attandencePercentage.value =
-        double.parse(presencePercentage.toStringAsFixed(2)) / 100;
+        double.parse(presencePercentage.toStringAsFixed(2));
+    print(absentPersentage.value);
   }
 
   loadLoanReport() async {
@@ -153,10 +150,10 @@ class ReportViewModel extends GetxController {
         }
       }
 
-      double loanp = (paidLoan / totalLoan) * 100;
+      double loanp = (paidLoan / totalLoan);
 
       // print(double.parse(loanp.toStringAsFixed(2)));
-      loanPercentage.value = double.parse(loanp.toStringAsFixed(2)) / 100;
+      loanPercentage.value = double.parse(loanp.toStringAsFixed(2));
     } catch (e) {
       print(e.toString());
     }
@@ -211,10 +208,10 @@ class ReportViewModel extends GetxController {
         }
       }
 
-      double loanp = (paidLoan / totalLoan) * 100;
+      double loanp = (paidLoan / totalLoan);
 
       // print(double.parse(loanp.toStringAsFixed(2)));
-      loanPercentage.value = double.parse(loanp.toStringAsFixed(2)) / 100;
+      loanPercentage.value = double.parse(loanp.toStringAsFixed(2));
     } catch (e) {
       print(e.toString());
     }
@@ -257,18 +254,13 @@ class ReportViewModel extends GetxController {
         empStatusAbsenttTotal += 1;
       }
     }
-    double presencePercentage =
-        (empStatusPresentTotal / attendenceList.length) * 100;
-    double absentPercentage =
-        (empStatusAbsenttTotal / attendenceList.length) * 100;
-    double leavePersentages =
-        (empStatusLeaveTotal / attendenceList.length) * 100;
+    double presencePercentage = (empStatusPresentTotal / attendenceList.length);
+    double absentPercentage = (empStatusAbsenttTotal / attendenceList.length);
+    double leavePersentages = (empStatusLeaveTotal / attendenceList.length);
 
-    leavePersentage.value =
-        double.parse(leavePersentages.toStringAsFixed(2)) / 100;
-    absentPersentage.value =
-        double.parse(absentPercentage.toStringAsFixed(2)) / 100;
+    leavePersentage.value = double.parse(leavePersentages.toStringAsFixed(2));
+    absentPersentage.value = double.parse(absentPercentage.toStringAsFixed(2));
     attandencePercentage.value =
-        double.parse(presencePercentage.toStringAsFixed(2)) / 100;
+        double.parse(presencePercentage.toStringAsFixed(2));
   }
 }

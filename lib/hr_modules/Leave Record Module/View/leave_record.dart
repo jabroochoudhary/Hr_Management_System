@@ -52,7 +52,9 @@ class _LeaveRecordState extends State<LeaveRecord> {
           ),
         ),
         body: _controller.isLoading.value
-            ? Center(child: LoadingIndicator().loadingWithLabel())
+            ? Center(
+                child: LoadingIndicator()
+                    .loadingWithLabel(title: _controller.loadingString.value))
             : Container(
                 // height: SizeConfig.heightMultiplier * 70,
                 // width: 400,

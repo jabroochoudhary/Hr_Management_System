@@ -204,6 +204,7 @@ class LoanComponents {
     GestureTapCallback? onPressed,
     String? designation,
     String? createdAt,
+    GestureLongPressCallback? onLongPressed,
   }) {
     DateTime dt = DateTime.fromMicrosecondsSinceEpoch(int.parse(createdAt!));
     final date = "${dt.day}-${dt.month}-${dt.year}";
@@ -211,6 +212,7 @@ class LoanComponents {
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       child: InkWell(
         onTap: onPressed,
+        onLongPress: onLongPressed,
         splashColor: Colors.green,
         child: Container(
           padding: const EdgeInsets.all(15),

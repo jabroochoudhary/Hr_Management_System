@@ -12,6 +12,8 @@ import 'package:hr_management_system/Utils/loading_indicator.dart';
 import 'package:hr_management_system/data_classes/constants.dart';
 import 'package:hr_management_system/hr_modules/add_empoyee/model/add_empoyee_model.dart';
 
+import '../../Utils/app_message/toast_message.dart';
+
 class LoanRecord extends StatelessWidget {
   bool isHr;
   LoanRecord({this.isHr = true, Key? key}) : super(key: key);
@@ -76,6 +78,19 @@ class LoanRecord extends StatelessWidget {
                         name: userSnapshot.data!.name,
                         designation: userSnapshot.data!.designation,
                         createdAt: loanMasterData.createdAt,
+                        onLongPressed: () async {
+                          await ToastMessage().defaultYesNoDialouge(
+                              "Are you sure to delete the Loan record of ''${userSnapshot.data!.name}''. Changes in database is permanent.",
+                              onConfirmPressed: () {
+                            _controller
+                                .deleteEmployeeLoanRecord(loanMasterData.id!);
+                            Get.back();
+                            // _controller.listOfVoices
+                            //     .removeAt(index);
+                          }, onCancelPressed: () {
+                            Get.back();
+                          });
+                        },
                         onPressed: () {
                           Get.to(() => LoanDetails(
                                 loanMasterData.id,

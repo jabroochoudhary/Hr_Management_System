@@ -17,6 +17,7 @@ class LeaveRecordViewModel extends GetxController {
   RxBool isHistoryHas = false.obs;
   RxString hr_id = "".obs;
   RxBool isLoading = true.obs;
+  RxString loadingString = "Loading Employees Data".obs;
 
   Future<void> loadUserID() async {
     hr_id.value =
@@ -44,6 +45,7 @@ class LeaveRecordViewModel extends GetxController {
       }
     });
     final listDates = <String>[];
+    loadingString.value = "Loading Attendance Dates";
     await FirebaseFirestore.instance
         .collection(AppConstants.hrAttandenceCollection)
         .doc(hr_id.value)
@@ -57,7 +59,9 @@ class LeaveRecordViewModel extends GetxController {
     });
     listLeavesModel.clear();
     listLeavesCount.clear();
-
+    int counter = 0;
+    loadingString.value = "Loading Employees Attendance";
+    final half = (listEmployees.length / 2);
     for (var emp in listEmployees) {
       for (var date in listDates) {
         await FirebaseFirestore.instance
@@ -84,8 +88,12 @@ class LeaveRecordViewModel extends GetxController {
           // print(emp.name.toString() + st.toString());
         });
       }
+      counter++;
+      if (half < counter) {
+        loadingString.value = "Summerizing Attendance";
+      }
     }
-
+    loadingString.value = "Summerizing Attendance";
     for (var emp in listEmployees) {
       int countLeave = 0;
       for (var leve in listLeavesModel) {

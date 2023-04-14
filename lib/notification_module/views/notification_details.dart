@@ -47,127 +47,129 @@ class NotificationDetailsView extends StatelessWidget {
             text: "Notification Detail",
           ),
         ),
-        body: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(10),
-              margin: const EdgeInsets.all(6),
-              decoration: BoxDecoration(
-                color: obj.isActive!
-                    ? const Color.fromARGB(255, 222, 90, 255)
-                    : AppColors.primarycolor,
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        obj.title!,
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color:
-                                obj.isActive! ? Colors.yellow : Colors.black),
-                      ),
-                      Icon(
-                        obj.isActive!
-                            ? Icons.notifications_active
-                            : Icons.notifications,
-                        color: obj.isActive! ? Colors.yellow : Colors.white,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        obj.senderName!,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                margin: const EdgeInsets.all(6),
+                decoration: BoxDecoration(
+                  color: obj.isActive!
+                      ? const Color.fromARGB(255, 222, 90, 255)
+                      : AppColors.primarycolor,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          obj.title!,
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color:
+                                  obj.isActive! ? Colors.yellow : Colors.black),
                         ),
-                      ),
-                      Text(
-                        obj.designation!,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
+                        Icon(
+                          obj.isActive!
+                              ? Icons.notifications_active
+                              : Icons.notifications,
+                          color: obj.isActive! ? Colors.yellow : Colors.white,
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    "Message: ${obj.message!}",
-                    style: const TextStyle(
-                      fontSize: 20,
-                      color: Color.fromARGB(255, 4, 86, 14),
-                      fontWeight: FontWeight.w500,
+                      ],
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Received at: $date",
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          obj.senderName!,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
+                        Text(
+                          obj.designation!,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      "Message: ${obj.message!}",
+                      style: const TextStyle(
+                        fontSize: 20,
+                        color: Color.fromARGB(255, 4, 86, 14),
+                        fontWeight: FontWeight.w500,
                       ),
-                    ],
-                  ),
-                ],
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Received at: $date",
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-            _controller.isHr.value
-                ? Column(
-                    children: [
-                      SizedBox(height: SizeConfig.heightMultiplier * 1),
-                      _controller.isLoading.value
-                          ? LoadingIndicator()
-                              .loadingWithLabel(title: "Loading")
-                          : CustomButton(
-                              callback: () {
-                                _controller.acceptLoanRequest(obj);
-                              },
-                              width: SizeConfig.widthMultiplier * 95,
-                              title: "Accept Loan",
-                              txtsize: 20,
-                            ),
-                      const Divider(
-                        indent: 15,
-                        endIndent: 15,
-                        thickness: 0.5,
-                        color: Colors.grey,
-                        height: 50,
-                      ),
-                      CustomTextbox(
-                        width: SizeConfig.widthMultiplier * 95,
-                        text: "Rejection reason",
-                        maxLine: 5,
-                        height: 100,
-                        textEditingController:
-                            _controller.rejectionController.value,
-                      ),
-                      SizedBox(height: SizeConfig.heightMultiplier * 1),
-                      CustomButton(
-                        callback: () {
-                          _controller.rejectLoanRequest(obj);
-                        },
-                        width: SizeConfig.widthMultiplier * 95,
-                        title: "Reject Request",
-                        txtsize: 20,
-                      )
-                    ],
-                  )
-                : SizedBox()
-          ],
+              _controller.isHr.value
+                  ? Column(
+                      children: [
+                        SizedBox(height: SizeConfig.heightMultiplier * 1),
+                        _controller.isLoading.value
+                            ? LoadingIndicator()
+                                .loadingWithLabel(title: "Loading")
+                            : CustomButton(
+                                callback: () {
+                                  _controller.acceptLoanRequest(obj);
+                                },
+                                width: SizeConfig.widthMultiplier * 95,
+                                title: "Accept Loan",
+                                txtsize: 20,
+                              ),
+                        const Divider(
+                          indent: 15,
+                          endIndent: 15,
+                          thickness: 0.5,
+                          color: Colors.grey,
+                          height: 50,
+                        ),
+                        CustomTextbox(
+                          width: SizeConfig.widthMultiplier * 95,
+                          text: "Rejection reason",
+                          maxLine: 5,
+                          height: 100,
+                          textEditingController:
+                              _controller.rejectionController.value,
+                        ),
+                        SizedBox(height: SizeConfig.heightMultiplier * 1),
+                        CustomButton(
+                          callback: () {
+                            _controller.rejectLoanRequest(obj);
+                          },
+                          width: SizeConfig.widthMultiplier * 95,
+                          title: "Reject Request",
+                          txtsize: 20,
+                        )
+                      ],
+                    )
+                  : SizedBox()
+            ],
+          ),
         ),
       ),
     );
