@@ -106,7 +106,7 @@ class _AttendencePageState extends State<AttendencePage> {
       animateMenuItems: true,
       onPressed: () {
         _controllerAttendence.updateAttandenceStatus(
-            dataAtt.empId.toString(), 1, date);
+            dataAtt.empId.toString(), 1, date, dataAtt.empId.toString());
       },
       menuItems: <FocusedMenuItem>[
         FocusedMenuItem(
@@ -119,7 +119,7 @@ class _AttendencePageState extends State<AttendencePage> {
             ),
             onPressed: () {
               _controllerAttendence.updateAttandenceStatus(
-                  dataAtt.empId.toString(), 1, date);
+                  dataAtt.empId.toString(), 1, date, dataAtt.empId.toString());
             },
             backgroundColor: Colors.green),
         //00CE2D
@@ -133,7 +133,7 @@ class _AttendencePageState extends State<AttendencePage> {
             ),
             onPressed: () {
               _controllerAttendence.updateAttandenceStatus(
-                  dataAtt.empId.toString(), 0, date);
+                  dataAtt.empId.toString(), 0, date, dataAtt.empId.toString());
             },
             backgroundColor: Colors.red),
         FocusedMenuItem(
@@ -146,7 +146,7 @@ class _AttendencePageState extends State<AttendencePage> {
             ),
             onPressed: () {
               _controllerAttendence.updateAttandenceStatus(
-                  dataAtt.empId.toString(), 2, date);
+                  dataAtt.empId.toString(), 2, date, dataAtt.empId.toString());
             },
             backgroundColor: Colors.yellow),
       ],

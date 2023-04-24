@@ -167,16 +167,6 @@ class MyDrawer extends StatelessWidget {
                         title: "Salary",
                         onPressed: salaryPressed,
                       ),
-                      const Divider(
-                        color: Colors.grey,
-                        // height: 30,
-                        thickness: 1,
-                      ),
-                      tile(
-                        icon: Icons.settings,
-                        title: "Setting",
-                        onPressed: settingsPressed,
-                      ),
                     ],
                   ),
                 ),
@@ -329,15 +319,6 @@ class MyEmpDrawer extends StatelessWidget {
                         icon: Icons.euro_symbol_sharp,
                         title: "Salary",
                         onPressed: salaryPressed,
-                      ),
-                      const Divider(
-                        color: Colors.grey,
-                        // height: 30,
-                        thickness: 1,
-                      ),
-                      tile(
-                        icon: Icons.settings,
-                        title: "Setting",
                       ),
                     ],
                   ),

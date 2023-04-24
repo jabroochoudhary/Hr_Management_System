@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -7,7 +8,6 @@ import 'package:hr_management_system/Home%20Module/View/home_screen.dart';
 import 'package:hr_management_system/Sign-Up%20Module/model/sign_up_mode.dart';
 import 'package:hr_management_system/hr_modules/add_empoyee/model/add_empoyee_model.dart';
 import 'package:hr_management_system/data_classes/constants.dart';
-
 import '../../Utils/pop_up_notification.dart';
 import '../../data_classes/local_data_saver.dart';
 
@@ -144,7 +144,8 @@ class LogInViewModel extends GetxController {
               userData.userFullName.toString(), AppLocalDataSaver.userName);
           await AppLocalDataSaver.setBool(
               isHrCheck.value, AppLocalDataSaver.isHRLoginKey);
-
+          await setFCMTokenToDOc(
+              collectionName: AppConstants.hrCollectionName, docId: uid);
           return true;
         } else {
           return false;
@@ -174,7 +175,9 @@ class LogInViewModel extends GetxController {
               userData.hrId.toString(), AppLocalDataSaver.empHRidKey);
           await AppLocalDataSaver.setBool(
               isHrCheck.value, AppLocalDataSaver.isHRLoginKey);
-
+          await setFCMTokenToDOc(
+              collectionName: AppConstants.employesCollectionName,
+              docId: userData.id!);
           return true;
         } else {
           return false;
@@ -182,6 +185,19 @@ class LogInViewModel extends GetxController {
       } catch (e) {}
       return false;
     }
+  }
+
+  setFCMTokenToDOc(
+      {required String docId, required String collectionName}) async {
+    final fcmToken = await FirebaseMessaging.instance.getToken();
+    await FirebaseFirestore.instance
+        .collection(collectionName)
+        .doc(docId)
+        .update({
+      "FCM_token": fcmToken,
+    });
+    print("FCM TOKEN");
+    print(fcmToken);
   }
 
 //////////////////////////////////////////////////

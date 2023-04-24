@@ -75,12 +75,16 @@ class SalaryUpdateView extends StatelessWidget {
                         yesText: "Yes",
                         onCancelPressed: () {
                           _controller.salaryPayStatus(
-                              detailSalaryData.id.toString(), false);
+                              detailSalaryData.id.toString(),
+                              false,
+                              detailSalaryData.empId.toString());
                           Get.back();
                         },
                         onConfirmPressed: () {
                           _controller.salaryPayStatus(
-                              detailSalaryData.id.toString(), true);
+                              detailSalaryData.id.toString(),
+                              true,
+                              detailSalaryData.empId.toString());
                           Get.back();
                         },
                       );

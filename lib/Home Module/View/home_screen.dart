@@ -1,8 +1,14 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hr_management_system/Loan%20Module/View/loan_record.dart';
 import 'package:hr_management_system/Report%20Module/view/emp_report_view.dart';
+import 'package:hr_management_system/data_classes/fcm_send.dart';
 import 'package:hr_management_system/emp_modules/emp_attendence/view/emp_attendence_view.dart';
+import 'package:hr_management_system/hr_modules/Attendence%20Module/Components/attendence_color.dart';
 import 'package:hr_management_system/hr_modules/Attendence%20Module/View/dates_list.dart';
 import 'package:hr_management_system/Home%20Module/Components/drawer.dart';
 import 'package:hr_management_system/hr_modules/Leave%20Record%20Module/View/leave_record.dart';
@@ -21,13 +27,18 @@ import 'package:hr_management_system/salary_module/views/emp_side_salary_view.da
 import 'package:hr_management_system/salary_module/views/salary_view.dart';
 import 'package:lottie/lottie.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   bool isHr;
   HomeScreen(
     this.isHr, {
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   // int selectedcontainer=0;
   List hrCaption = [
     "Attendence",
@@ -80,6 +91,18 @@ class HomeScreen extends StatelessWidget {
 
   final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
   final _profileController = Get.put(ProfileViewModel());
+  late AndroidNotificationChannel channel;
+  late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    requestPermission();
+    loadFcm();
+    listenFcm();
+    // listenFcm();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +110,7 @@ class HomeScreen extends StatelessWidget {
     return Obx(
       () => Scaffold(
         key: _scaffoldkey,
-        drawer: isHr
+        drawer: widget.isHr
             ? MyDrawer(
                 email: _profileController.email.value,
                 imgUrl: _profileController.imageUrl.value,
@@ -96,7 +119,6 @@ class HomeScreen extends StatelessWidget {
                 profilePressed: () {
                   Get.to(
                       () => HRProfileView(hrData: _profileController.hrData!));
-                  // _profileController.loadHRCloudData();
                 },
                 employeesPressed: () => Get.to(() => EmployeesListView()),
                 salaryPressed: () => Get.to(() => SalaryView()),
@@ -147,10 +169,6 @@ class HomeScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Column(
               children: [
-                // SizedBox(
-                //   height: SizeConfig.heightMultiplier * 3,
-                // ),
-                // SearchField(),
                 SizedBox(
                   height: SizeConfig.heightMultiplier * 3,
                 ),
@@ -162,22 +180,22 @@ class HomeScreen extends StatelessWidget {
                     crossAxisSpacing: 15.0,
                     mainAxisSpacing: 25.0,
                   ),
-                  itemCount: isHr ? hrCaption.length : empCaption.length,
+                  itemCount: widget.isHr ? hrCaption.length : empCaption.length,
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () {
-                        if (isHr && index == 5) {
+                        if (widget.isHr && index == 5) {
                           Get.offAll(() => LoginScreen());
                         } else if (index == 4) {
                           Get.to(() => ReportScreen());
-                        } else if (!isHr && index == 3) {
+                        } else if (!widget.isHr && index == 3) {
                           Get.offAll(() => LoginScreen());
                         } else {
-                          Get.to(isHr ? hrPages[index] : empPages[index]);
+                          Get.to(
+                              widget.isHr ? hrPages[index] : empPages[index]);
                         }
                       },
                       child: Container(
-                        // padding: EdgeInsets.all(3),
                         decoration: BoxDecoration(
                           gradient: const LinearGradient(
                             colors: [
@@ -200,10 +218,12 @@ class HomeScreen extends StatelessWidget {
                             SizedBox(
                               height: SizeConfig.heightMultiplier * 17,
                               child: Lottie.asset(
-                                  isHr ? hrLogo[index] : empLogo[index]),
+                                  widget.isHr ? hrLogo[index] : empLogo[index]),
                             ),
                             Text(
-                              isHr ? hrCaption[index] : empCaption[index],
+                              widget.isHr
+                                  ? hrCaption[index]
+                                  : empCaption[index],
                               style: const TextStyle(
                                   color: Colors.white, fontSize: 18),
                             ),
@@ -220,23 +240,103 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
         ),
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: () {},
-        //   child: Container(
-        //       height: 65,
-        //       width: 65,
-        //       decoration:
-        //           BoxDecoration(shape: BoxShape.circle, color: Color(0xffB2C6FE)
-        //               // gradient: LinearGradient(
-        //               //   colors: [
-        //               //     Color.fromRGBO(143, 148, 251, 1),
-        //               //     Color.fromRGBO(143, 148, 251, .6),
-        //               //   ],
-        //               // ),
-        //               ),
-        //       child: Lottie.asset("assets/action.json", fit: BoxFit.fitWidth)),
-        // ),
       ),
     );
+  }
+
+  ////////////// FCM token Code
+  ///
+  void listenFcm() async {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null && !kIsWeb) {
+        try {
+          flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                playSound: true,
+                color: primaryColor,
+
+                // TODO add a proper drawable resource to android, for now using
+                //      one that already exists in example app.
+                icon: '@mipmap/ic_launcher',
+              ),
+            ),
+          );
+        } catch (e) {
+          print("Error Listen FCM");
+          print(e.toString());
+        }
+      }
+    });
+    // FirebaseMessaging.onBackgroundMessage((message) async {});
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('A new onMessageOpenedApp event was published!\nm\nh\ng\n');
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null && !kIsWeb) {
+        Get.to(() => NotificationView());
+      }
+    });
+  }
+
+  void requestPermission() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      print("User granted permission");
+    } else if (settings.authorizationStatus ==
+        AuthorizationStatus.provisional) {
+      print("User granted pervisional permission");
+    } else {
+      print("User undeclined permission");
+    }
+  }
+
+  void loadFcm() async {
+    if (!kIsWeb) {
+      channel = const AndroidNotificationChannel(
+        'high_importance_channel', // id
+        'High Importance Notifications', // title
+        importance: Importance.high,
+        enableVibration: true,
+        enableLights: true,
+      );
+
+      flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+      /// Create an Android Notification Channel.
+      ///
+      /// We use this channel in the `AndroidManifest.xml` file to override the
+      /// default FCM channel to enable heads up notifications.
+      await flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>()
+          ?.createNotificationChannel(channel);
+
+      /// Update the iOS foreground notification presentation options to allow
+      /// heads up notifications.
+      await FirebaseMessaging.instance
+          .setForegroundNotificationPresentationOptions(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
+    }
   }
 }

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:hr_management_system/Loan%20Module/model/loan_master_model.dart';
 import 'package:hr_management_system/Utils/pop_up_notification.dart';
 import 'package:hr_management_system/data_classes/constants.dart';
+import 'package:hr_management_system/data_classes/fcm_send.dart';
 import 'package:hr_management_system/data_classes/local_data_saver.dart';
 import 'package:hr_management_system/hr_modules/add_empoyee/model/add_empoyee_model.dart';
 import 'package:hr_management_system/notification_module/model/notification_model.dart';
@@ -53,6 +54,13 @@ class LoanViewModel extends GetxController {
             .collection(AppConstants.notificationCollectionName)
             .doc(id)
             .set(data.toJson());
+        final name =
+            (await AppLocalDataSaver.getString(AppLocalDataSaver.userName))!;
+        FCM().send(
+            title: "Loan",
+            message: "$name is requesting for Rs. $selectedAmount.",
+            collectionName: AppConstants.hrCollectionName,
+            docId: hrId);
         Get.back();
         PopUpNotification()
             .show("Request is sent. You will be notified.", "Sucess");
@@ -159,5 +167,10 @@ class LoanViewModel extends GetxController {
           .doc(element)
           .delete();
     }
+    FCM().send(
+        title: "Loan",
+        message: "Your loan installments are completed.",
+        collectionName: AppConstants.employesCollectionName,
+        docId: userId.value);
   }
 }

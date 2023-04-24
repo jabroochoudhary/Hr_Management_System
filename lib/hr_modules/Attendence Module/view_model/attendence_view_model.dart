@@ -6,6 +6,8 @@ import 'package:hr_management_system/hr_modules/add_empoyee/model/add_empoyee_mo
 import 'package:hr_management_system/data_classes/constants.dart';
 import 'package:hr_management_system/data_classes/local_data_saver.dart';
 
+import '../../../data_classes/fcm_send.dart';
+
 class AttendenceViewModel extends GetxController {
   RxString hr_id = "".obs;
   RxBool isHistoryHas = false.obs;
@@ -79,7 +81,7 @@ class AttendenceViewModel extends GetxController {
   }
 
   Future<void> updateAttandenceStatus(
-      String docId, int value, String date) async {
+      String docId, int value, String date, String userId) async {
     // final toDay = "${date.day}-${date.month}-${date.year}";
 
     final instancePath = await FirebaseFirestore.instance
@@ -92,6 +94,12 @@ class AttendenceViewModel extends GetxController {
         .update({
       "status": value,
     });
+    FCM().send(
+      title: "Attendance",
+      message: "Your $date attendance status is updated.",
+      collectionName: AppConstants.employesCollectionName,
+      docId: userId,
+    );
   }
 
   Future<void> chekDocIsExsist() async {

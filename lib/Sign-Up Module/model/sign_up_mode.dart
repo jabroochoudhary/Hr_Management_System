@@ -9,6 +9,7 @@ class SignUpModel {
   String? personalContactNo;
   String? userFullName;
   String? userProfileLink;
+  String? fcmToken;
 
   SignUpModel(
       {this.email,
@@ -20,6 +21,7 @@ class SignUpModel {
       this.officePhoneNo,
       this.personalContactNo,
       this.userProfileLink,
+      this.fcmToken,
       this.userFullName});
 
   SignUpModel.fromJson(Map<String, dynamic> json) {
@@ -33,6 +35,7 @@ class SignUpModel {
     personalContactNo = json['personal_contact_no'];
     userFullName = json['user_full_name'];
     userProfileLink = json['user_profile_link'];
+    fcmToken = json['FCM_token'];
   }
 
   Map<String, dynamic> toJson() {
@@ -47,6 +50,7 @@ class SignUpModel {
     data['personal_contact_no'] = personalContactNo;
     data['user_full_name'] = userFullName;
     data['user_profile_link'] = userProfileLink;
+    data['FCM_token'] = fcmToken;
 
     return data;
   }

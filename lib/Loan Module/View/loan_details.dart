@@ -13,6 +13,7 @@ import 'package:hr_management_system/Utils/size_config.dart';
 
 import '../../Utils/loading_indicator.dart';
 import '../../data_classes/constants.dart';
+import '../../data_classes/fcm_send.dart';
 
 class LoanDetails extends StatelessWidget {
   bool ishr;
@@ -99,6 +100,14 @@ class LoanDetails extends StatelessWidget {
                                 onCancelPressed: () async {
                                   await _contrller
                                       .unPaidInstallment(loanDeatilsData.id!);
+                                  FCM().send(
+                                    title: "Loan",
+                                    message:
+                                        "Installment of Rs. ${loanDeatilsData.amount} is not paid yet.",
+                                    collectionName:
+                                        AppConstants.employesCollectionName,
+                                    docId: _contrller.userId.value,
+                                  );
                                   if (Get.isDialogOpen == true) {
                                     Get.back();
                                   }
@@ -106,6 +115,14 @@ class LoanDetails extends StatelessWidget {
                                 onConfirmPressed: () async {
                                   await _contrller
                                       .paidInstallment(loanDeatilsData.id!);
+                                  FCM().send(
+                                    title: "Loan",
+                                    message:
+                                        "Installment of Rs. ${loanDeatilsData.amount} is paid",
+                                    collectionName:
+                                        AppConstants.employesCollectionName,
+                                    docId: _contrller.userId.value,
+                                  );
                                   if (Get.isDialogOpen == true) {
                                     Get.back();
                                   }

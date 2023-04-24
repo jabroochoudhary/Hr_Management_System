@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:hr_management_system/Utils/pop_up_notification.dart';
 import 'package:hr_management_system/data_classes/constants.dart';
+import 'package:hr_management_system/data_classes/fcm_send.dart';
 import 'package:hr_management_system/data_classes/local_data_saver.dart';
 import 'package:hr_management_system/hr_modules/add_empoyee/model/add_empoyee_model.dart';
 import 'package:hr_management_system/hr_modules/employees_list/views/emp_profile_view.dart';
@@ -80,13 +81,20 @@ class SalaryViewModel extends GetxController {
     Get.to(() => SalaryUpdateView(masterId: mid));
   }
 
-  salaryPayStatus(String docId, bool val) async {
+  salaryPayStatus(String docId, bool val, String mId) async {
     await FirebaseFirestore.instance
         .collection(AppConstants.salarydeatailCollectionName)
         .doc(docId)
         .update({
       "is_paid": val,
     });
+    String fr = val ? "paid" : "not paid";
+
+    FCM().send(
+        title: "Salary",
+        message: "Your salary of this month status is $fr.",
+        collectionName: AppConstants.employesCollectionName,
+        docId: mId);
   }
 
   showEmpProfile({String? docId}) async {

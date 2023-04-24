@@ -5,6 +5,7 @@ import 'package:hr_management_system/Loan%20Module/model/loan_details_model.dart
 import 'package:hr_management_system/Loan%20Module/model/loan_master_model.dart';
 import 'package:hr_management_system/Utils/pop_up_notification.dart';
 import 'package:hr_management_system/data_classes/constants.dart';
+import 'package:hr_management_system/data_classes/fcm_send.dart';
 import 'package:hr_management_system/notification_module/model/notification_model.dart';
 
 import '../../data_classes/local_data_saver.dart';
@@ -74,6 +75,12 @@ class NotificationViewModel extends GetxController {
           .collection(AppConstants.notificationCollectionName)
           .doc(id)
           .set(notify.toJson());
+      FCM().send(
+          title: "Loan",
+          message:
+              "Your request for loan of Rs. $amount is rejected. ${rejectionController.value.text}",
+          collectionName: AppConstants.employesCollectionName,
+          docId: data.receiverId.toString());
       Get.back();
       FirebaseFirestore.instance
           .collection(AppConstants.notificationCollectionName)
@@ -156,6 +163,12 @@ class NotificationViewModel extends GetxController {
         .doc(notifyId)
         .set(notify.toJson());
     isLoading.value = false;
+    FCM().send(
+        title: "Loan",
+        message:
+            "Your request for Loan is accepted. Check Loan Record for details.",
+        collectionName: AppConstants.employesCollectionName,
+        docId: data.receiverId.toString());
     print("accept done");
     Get.back();
     Get.back();

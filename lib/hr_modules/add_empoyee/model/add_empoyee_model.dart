@@ -20,12 +20,14 @@ class AddEmployeeModel {
   String? contact;
   String? hrId;
   Timestamp? createdAt;
+  String? fcmToken;
 
   AddEmployeeModel(
       {this.id,
       this.name,
       this.fatherName,
       this.age,
+      this.fcmToken,
       this.cnic,
       this.education,
       this.expertise,
@@ -62,6 +64,7 @@ class AddEmployeeModel {
     contact = json['contact_no'];
     hrId = json['HR_id'];
     createdAt = json['created_at'];
+    fcmToken = json['FCM_token'];
   }
 
   Map<String, dynamic> toJson() {
@@ -86,6 +89,7 @@ class AddEmployeeModel {
     data['image_url'] = imageURL;
     data['contact_no'] = contact;
     data['created_at'] = createdAt;
+    data['FCM_token'] = fcmToken;
 
     return data;
   }
