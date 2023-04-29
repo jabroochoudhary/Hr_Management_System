@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hr_management_system/Loan%20Module/model/loan_details_model.dart';
+import 'package:hr_management_system/Loan%20Module/model/loan_master_model.dart';
 import 'package:hr_management_system/data_classes/local_data_saver.dart';
 
 import '../../../Utils/pop_up_notification.dart';
@@ -71,6 +73,87 @@ class EmployeesListViewModel extends GetxController {
       isLoading.value = false;
       PopUpNotification()
           .show("Please fill all attributes with proper data", "Information");
+    }
+  }
+
+  deleteEmployee(String empId, String name) async {
+    var masterLoanList = <LoanMasterModel>[];
+    var detalLoanList = <LoanDetailsModel>[];
+    await FirebaseFirestore.instance
+        .collection(AppConstants.loanMasterCollectionName)
+        .where("emp_id", isEqualTo: empId)
+        .get()
+        .then((value) {
+      for (var element in value.docs) {
+        masterLoanList.add(LoanMasterModel.fromJson(element.data()));
+      }
+    });
+    for (var element in masterLoanList) {
+      await FirebaseFirestore.instance
+          .collection(AppConstants.loanDetailsCollectionName)
+          .where("master_loan_id", isEqualTo: element.id)
+          .get()
+          .then((value) {
+        for (var e in value.docs) {
+          detalLoanList.add(LoanDetailsModel.fromJson(e.data()));
+        }
+      });
+    }
+    int remainingLoans = 0;
+    for (var c in detalLoanList) {
+      if (!c.isPaid!) {
+        remainingLoans += 1;
+      }
+    }
+    if (remainingLoans > 0) {
+      PopUpNotification().show(
+          "$remainingLoans installments remain for $name. You cannot delete this employee.",
+          "Information");
+    } else {
+      await FirebaseFirestore.instance
+          .collection(AppConstants.employesCollectionName)
+          .doc(empId)
+          .delete();
+
+      for (var element in masterLoanList) {
+        await FirebaseFirestore.instance
+            .collection(AppConstants.loanMasterCollectionName)
+            .doc(element.id)
+            .delete();
+      }
+
+      for (var element in detalLoanList) {
+        await FirebaseFirestore.instance
+            .collection(AppConstants.loanDetailsCollectionName)
+            .doc(element.id)
+            .delete();
+      }
+      final attendenceRefrence = FirebaseFirestore.instance
+          .collection(AppConstants.hrAttandenceCollection)
+          .doc(hrId.value)
+          .collection(AppConstants.datesCollectionInHrAttandence);
+      await attendenceRefrence.get().then((querySnapshot) {
+        for (var doc in querySnapshot.docs) {
+          doc.reference
+              .collection(
+                  AppConstants.attendenceInDatesCollectionInHrAttandence)
+              .where("emp_id", isEqualTo: empId)
+              .get()
+              .then((att) {
+            for (var at in att.docs) {
+              at.reference.delete();
+            }
+          });
+        }
+      });
+
+      final salaryReff = FirebaseFirestore.instance
+          .collection(AppConstants.salarydeatailCollectionName);
+      await salaryReff.where("emp_id", isEqualTo: empId).get().then((snaps) {
+        for (var element in snaps.docs) {
+          element.reference.delete();
+        }
+      });
     }
   }
 }

@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:http/http.dart' as http;
 
 class FCM {
@@ -9,13 +8,17 @@ class FCM {
       required String message,
       required String collectionName,
       required String docId}) async {
-    await FirebaseFirestore.instance
-        .collection(collectionName)
-        .doc(docId)
-        .get()
-        .then((value) {
-      sendNotification(title, message, value['FCM_token']);
-    });
+    try {
+      await FirebaseFirestore.instance
+          .collection(collectionName)
+          .doc(docId)
+          .get()
+          .then((value) {
+        sendNotification(title, message, value['FCM_token']);
+      });
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   Future<void> sendNotification(

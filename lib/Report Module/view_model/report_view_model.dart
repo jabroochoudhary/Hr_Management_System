@@ -49,21 +49,24 @@ class ReportViewModel extends GetxController {
       }
     });
     totalNoOfEmployees.value = empData.length;
-    int minSalary = empData[0].salary!;
-    int maxSalary = empData[0].salary!;
-    for (var element in empData) {
-      salaryTotalMonth.value += element.salary!;
-      salaryTotalYear.value = 12 * salaryTotalMonth.value;
-      int salary = element.salary!;
-      if (salary < minSalary) {
-        minSalary = salary;
+
+    try {
+      int minSalary = empData[0].salary!;
+      int maxSalary = empData[0].salary!;
+      for (var element in empData) {
+        salaryTotalMonth.value += element.salary!;
+        salaryTotalYear.value = 12 * salaryTotalMonth.value;
+        int salary = element.salary!;
+        if (salary < minSalary) {
+          minSalary = salary;
+        }
+        if (salary > maxSalary) {
+          maxSalary = salary;
+        }
       }
-      if (salary > maxSalary) {
-        maxSalary = salary;
-      }
-    }
-    minSalaryemp.value = minSalary;
-    maxSalaryemp.value = maxSalary;
+      minSalaryemp.value = minSalary;
+      maxSalaryemp.value = maxSalary;
+    } catch (e) {}
 
     findPresentsAttandence();
     loadLoanReport();

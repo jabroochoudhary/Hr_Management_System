@@ -6,6 +6,7 @@ import 'package:hr_management_system/hr_modules/employees_list/components/empoye
 import 'package:hr_management_system/hr_modules/employees_list/view_model/employees_list_view_model.dart';
 import 'package:hr_management_system/hr_modules/employees_list/views/emp_profile_view.dart';
 
+import '../../../Utils/app_message/toast_message.dart';
 import '../../../Utils/colors.dart';
 import '../../../Utils/custom_appbar.dart';
 import '../../../Utils/loading_indicator.dart';
@@ -55,6 +56,17 @@ class EmployeesListView extends StatelessWidget {
 
                           return EmployeesListComponents().card(
                             empData,
+                            onLongPressed: () async {
+                              await ToastMessage().defaultYesNoDialouge(
+                                  "Are you sure to delete  ${empData.name} employee. Changes in database is permanent.",
+                                  onConfirmPressed: () {
+                                _controller.deleteEmployee(
+                                    empData.id!, empData.name!);
+                                Get.back();
+                              }, onCancelPressed: () {
+                                Get.back();
+                              });
+                            },
                             () =>
                                 Get.to(() => EmpProfileView(empData: empData)),
                           );

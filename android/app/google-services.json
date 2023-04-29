@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:652779384758:android:ca7dd70631296fc05e5b17",
         "android_client_info": {
-          "package_name": "com.example.hr_management_system"
+          "package_name": "com.example1.hr_management_system"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "652779384758-kf12onga4gb0gmamdfereg0b951ilr6l.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.hr_management_system",
+            "package_name": "com.example1.hr_management_system",
             "certificate_hash": "bb6a46e9f209b5cad60dddd31a2d049aa8fe0db7"
           }
         },

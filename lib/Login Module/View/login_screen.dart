@@ -104,12 +104,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.max,
                     children: [
                       SizedBox(
-                        width: SizeConfig.widthMultiplier * 33,
+                        // color: Colors.red,
+                        width: SizeConfig.widthMultiplier * 30,
                         child: ListTile(
                           title: const Text('HR'),
                           textColor: AppColors.textlight,
+                          horizontalTitleGap: 0,
                           leading: Radio<User>(
                             fillColor: MaterialStateColor.resolveWith(
                                 (states) => AppColors.coloredtext),
@@ -126,10 +130,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       SizedBox(
+                        // color: Colors.yellow,
                         width: SizeConfig.widthMultiplier * 45,
                         child: ListTile(
                           textColor: AppColors.textlight,
                           title: const Text('Employee'),
+                          horizontalTitleGap: 0,
                           leading: Radio<User>(
                             fillColor: MaterialStateColor.resolveWith(
                                 (states) => AppColors.coloredtext),
@@ -160,24 +166,24 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                   ),
                   SizedBox(height: SizeConfig.heightMultiplier * 2),
-                  DelayedDisplay(
-                    delay: Duration(
-                        milliseconds: initialDelay.inMilliseconds + 900),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        InkWell(
-                            onTap: () {},
-                            child: const Text(
-                              "Forgot Password?",
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w100,
-                                  color: AppColors.coloredtext),
-                            )),
-                      ],
-                    ),
-                  ),
+                  // DelayedDisplay(
+                  //   delay: Duration(
+                  //       milliseconds: initialDelay.inMilliseconds + 900),
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.end,
+                  //     children: [
+                  //       InkWell(
+                  //           onTap: () {},
+                  //           child: const Text(
+                  //             "Forgot Password?",
+                  //             style: TextStyle(
+                  //                 fontSize: 14,
+                  //                 fontWeight: FontWeight.w100,
+                  //                 color: AppColors.coloredtext),
+                  //           )),
+                  //     ],
+                  //   ),
+                  // ),S
                   SizedBox(height: SizeConfig.heightMultiplier * 2),
                   _controllerLogIn.isHrCheck.value
                       ? DelayedDisplay(
