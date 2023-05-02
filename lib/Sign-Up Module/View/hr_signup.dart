@@ -150,12 +150,8 @@ class HrSignup extends StatelessWidget {
                                             .updateHRAccount(hrData!);
                                       }
                                     : () async {
-                                        if (await _controllerSignUp
-                                            .saveSignUpUserData()) {
-                                          Get.back();
-                                        } else {
-                                          print("Some network Issue");
-                                        }
+                                        await _controllerSignUp
+                                            .saveSignUpUserData();
                                       },
                                 title: isHR ? "Update Account" : "Sign Up",
                                 width: SizeConfig.widthMultiplier * 100,

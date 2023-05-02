@@ -143,13 +143,16 @@ class SignUpViewModel extends GetxController {
               userId.value.toString(), AppLocalDataSaver.userId);
         }
         isLoading.value = false;
+        Get.back();
         PopUpNotification().show("Profile completed sucess", "Profile");
 
         return done;
       } catch (e) {
+        print(e.toString());
         return false;
       }
     }
+    isLoading.value = false;
     return done;
   }
 
