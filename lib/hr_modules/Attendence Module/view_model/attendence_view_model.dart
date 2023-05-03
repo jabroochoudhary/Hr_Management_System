@@ -15,6 +15,8 @@ class AttendenceViewModel extends GetxController {
   Future<void> loadUserID() async {
     hr_id.value =
         (await AppLocalDataSaver.getString(AppLocalDataSaver.userId))!;
+    print(hr_id.value.toString() +
+        " <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
     // print(hr_id.toString());
   }
 
@@ -48,6 +50,7 @@ class AttendenceViewModel extends GetxController {
     } else {
       await FirebaseFirestore.instance
           .collection(AppConstants.employesCollectionName)
+          .where("HR_id", isEqualTo: hr_id.value)
           .get()
           .then((data) {
         for (var dt in data.docs) {

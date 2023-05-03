@@ -45,15 +45,16 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: Lottie.asset(
-                      "assets/welcome.json",
-                      fit: BoxFit.fill,
-                      height: 250,
-                      width: 250,
-                    ),
-                  ),
+                  // Align(
+                  //   alignment: Alignment.topRight,
+                  //   child: Lottie.asset(
+                  //     "assets/welcome.json",
+                  //     fit: BoxFit.fill,
+                  //     height: 250,
+                  //     width: 250,
+                  //   ),
+                  // ),
+                  SizedBox(height: 180, width: 250),
                   DelayedDisplay(
                     delay: Duration(
                         milliseconds: initialDelay.inMilliseconds + 200),
@@ -166,24 +167,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                   ),
                   SizedBox(height: SizeConfig.heightMultiplier * 2),
-                  // DelayedDisplay(
-                  //   delay: Duration(
-                  //       milliseconds: initialDelay.inMilliseconds + 900),
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.end,
-                  //     children: [
-                  //       InkWell(
-                  //           onTap: () {},
-                  //           child: const Text(
-                  //             "Forgot Password?",
-                  //             style: TextStyle(
-                  //                 fontSize: 14,
-                  //                 fontWeight: FontWeight.w100,
-                  //                 color: AppColors.coloredtext),
-                  //           )),
-                  //     ],
-                  //   ),
-                  // ),S
                   SizedBox(height: SizeConfig.heightMultiplier * 2),
                   _controllerLogIn.isHrCheck.value
                       ? DelayedDisplay(

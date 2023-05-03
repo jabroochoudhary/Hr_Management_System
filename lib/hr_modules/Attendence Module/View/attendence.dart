@@ -49,7 +49,7 @@ class _AttendencePageState extends State<AttendencePage> {
           onPressed: () {
             Get.back();
           },
-          icon: Icon(Icons.arrow_back_ios_sharp),
+          icon: const Icon(Icons.arrow_back_ios_sharp),
         ),
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
@@ -102,7 +102,7 @@ class _AttendencePageState extends State<AttendencePage> {
       BuildContext context, int index, AttandenceModel dataAtt) {
     return FocusedMenuHolder(
       menuWidth: SizeConfig.widthMultiplier * 75,
-      duration: Duration(milliseconds: 250),
+      duration: const Duration(milliseconds: 250),
       animateMenuItems: true,
       onPressed: () {
         _controllerAttendence.updateAttandenceStatus(
@@ -177,10 +177,10 @@ class _AttendencePageState extends State<AttendencePage> {
                   dataAtt.name.toString(),
                   style: TextStyle(fontSize: 20),
                 ),
-                Spacer(),
+                const Spacer(),
                 Text(
                   dataAtt.designation.toString(),
-                  style: TextStyle(fontSize: 12),
+                  style: const TextStyle(fontSize: 12),
                 ),
               ],
             ),
